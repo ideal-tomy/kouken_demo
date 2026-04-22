@@ -638,6 +638,7 @@ function renderFinalizePanel() {
   byId("human-outcome").value = r.humanOutcome;
   byId("delta-reason").value = r.deltaReason || "";
   byId("context-tags").value = (r.contextTags || []).join(",");
+  byId("decider").value = r.finalizedBy || "";
   byId("finalize-status").textContent = r.finalizedFlag ? `確定済み: ${r.finalizedBy} / ${r.finalizedAt}` : "未確定";
   byId("lock-state").textContent = r.finalizedFlag ? "ロック状態" : "未ロック";
   byId("request-unlock").disabled = !r.finalizedFlag;
