@@ -123,6 +123,21 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
   gap: 6px;
 }
 h3.heading-with-help, h4.heading-with-help { margin: 0 0 4px; }
+/* 会議ライブ: 左＝発言タイムライン、右＝イベントログ */
+.meeting-live-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 4px;
+}
+.meeting-live-block h4 { margin: 0 0 6px; }
+.meeting-feed-panel {
+  min-height: 8rem;
+  max-height: min(420px, 55vh);
+  overflow-y: auto;
+  padding: 4px 2px 8px 0;
+}
 .field-block { display: block; }
 .field-block .field-label { margin: 0 0 4px; font-size: var(--font-sm); }
 .field-block .help-btn { flex-shrink: 0; }
@@ -314,7 +329,8 @@ input { width: 100%; }
     width: 100%;
   }
   .guide-steps,
-  .grid2 {
+  .grid2,
+  .meeting-live-columns {
     grid-template-columns: 1fr;
   }
   .layout {

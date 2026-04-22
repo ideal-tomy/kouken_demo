@@ -63,7 +63,7 @@ function renderGapChart() {
   byId("chart-gap").innerHTML = `<div class="bars">${rows}</div>`;
   document.querySelectorAll(".gap-btn").forEach((b) => {
     b.addEventListener("click", () => {
-      byId("drilldown").innerHTML = `<div>候補者 ${b.dataset.cid} の乖離根拠を確認: <span class="mono">final_decisions:${b.dataset.cid}</span></div>`;
+      byId("drilldown").innerHTML = `<div>評価対象者 ${b.dataset.cid} の乖離根拠を確認: <span class="mono">final_decisions:${b.dataset.cid}</span></div>`;
     });
   });
 }

@@ -7,7 +7,7 @@
 
 ## チェック項目
 
-### 1) 候補者ID整合
+### 1) 評価対象者ID整合
 - `ai_first_pass.records[].candidateId` と `candidate_index.candidates[].candidateId` が一致
 - 結果: OK（P01-P10 10名）
 
@@ -20,8 +20,8 @@
 - 結果: OK（全40件）
 
 ### 4) Explainability最小要件
-- 1候補者あたり `evidenceRefs >= 3`
-- 1候補者あたり `explainTrace >= 3`
+- 1評価対象者あたり `evidenceRefs >= 3`
+- 1評価対象者あたり `explainTrace >= 3`
 - 結果: OK
 
 ## 残課題（Day3へ）

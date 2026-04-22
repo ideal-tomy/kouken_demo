@@ -59,10 +59,10 @@ function byId(id) { return document.getElementById(id); }
 
 /** ? ボタン用。data-help-key と HELP_TEXTS のキーが一致する必要がある */
 const HELP_TEXTS = {
-  ai_brief: "AI判定基準を基に、各候補者のサマリを確認し、会議や最終判断に向けた意思決定の材料として用いている結果を示しています（人間の最終決裁を置き換えるものではありません）。表現内容は、クライアント側の設定（部署・職階・評価項目の重みづけなど）で変えられます。監査に残る最終判断とAI案の差分（差分理由・文脈・ログ）をナレッジとして蓄積し、学習ループに回すことで、基準のチューニングや改善の有効性を後から検証する想定です。推奨区分に加え、強み・懸念・会議で詰める論点の起点として使います。",
+  ai_brief: "AI判定基準を基に、各評価対象者のサマリを確認し、会議や最終判断に向けた意思決定の材料として用いている結果を示しています（人間の最終決裁を置き換えるものではありません）。表現内容は、クライアント側の設定（部署・職階・評価項目の重みづけなど）で変えられます。監査に残る最終判断とAI案の差分（差分理由・文脈・ログ）をナレッジとして蓄積し、学習ループに回すことで、基準のチューニングや改善の有効性を後から検証する想定です。推奨区分に加え、強み・懸念・会議で詰める論点の起点として使います。",
   ai_criteria: "様々な評価基準や評価要素の重みづけと反映ロジックを、事前に登録しておくことで一貫した形で客観的な提案判定を出します。部署別・役職別、360度評価の重みの増減など、クライアント方針に合わせた調整が可能です。監査上の人間最終判断とAI案の差分や、その理由（差分理由・文脈タグ）の蓄積を学習・改善サイクルに戻し、基準の精度向上や、変更（ロールアウト）の有効性の検証に使う、という位置づけのデモです。",
   nudge: "会議中、発言の偏在・未発言者の多さ・同意への偏りなど、条件に合うと表示される短い提言です。会議の公平性・多様性の改善を促します。採用／見送りは監査・分析の入力になります。",
-  event_log: "この画面セッション内で起きた主な操作（候補者切替、会議シナリオ、ナッジ表示・採用・見送りなど）の履歴です。事後の説明・再現のしやすさ用です。本番は監査システムのイベントと対応づけます。",
+  event_log: "この画面セッション内で起きた主な操作（評価対象者切替、会議シナリオ、ナッジ表示・採用・見送りなど）の履歴です。事後の説明・再現のしやすさ用です。本番は監査システムのイベントと対応づけます。",
   delta_reason: "AI推奨と人間の最終判断が異なる場合に、その理由を必ず残す欄です。納得性・再現性・説明責任の中核で、根拠の薄い最終判断を防ぎます。蓄積された内容は、AI判定基準の精度向上のための学習（フィードバック）やナレッジ化にも反映可能、という想定です。",
   context_tags: "今回の判断の背景（事業文脈・クライアント要因・組織事情など）を短いラベルで付けます。後から同様の文脈の案件を比較・分析しやすくし、数字だけでは見えない解釈の差を扱えます。本項目も、AI判定基準のチューニングや学習に反映し、文脈別の当てはまりを改善する用途を想定しています。",
   lock_unlock: "最終確定後は原則として編集不可（ロック）とし、事後改ざんのリスクを下げます。例外的に変更が必要なときは、理由・影響範囲・承認者を揃えて解除します。高い手続率はルール不備のサインになり得るため、定義の見直し材料にもします。",
@@ -73,7 +73,7 @@ const HELP_TEXTS = {
   kpi_calibration_gap: "AI推奨と人間最終判断の食い違いが、組織として妥当な範囲に収束している度合いの目安です。常にゼロが最適とは限りません。意図的な補正は差分理由に残すことが重要です。",
   chart_participation: "M-01・M-02・M-03は会議回（例示）で、会議を重ねるごとの発言エクイティの推移です。制度・ファシリ・ナッジ導入の定着度を示す想定で、1会議の定義は運用で設定できます。",
   chart_nudge: "種類（participation＝参加・diversity＝多様性・evidence＝根拠促し など）ごとに、ナッジを出した回数（shown）と採用した回数（accepted）を積み上げ表示しています。どの偏りに対する介入を見ているか、運用の効きの目安になります。",
-  chart_gap: "候補者ごとに、AI案と人間最終の差の大きさを分布として見せています。説明工数が必要な案件の探索や、部門・基準の偏りの発見に使います。",
+  chart_gap: "評価対象者ごとに、AI案と人間最終の差の大きさを分布として見せています。説明工数が必要な案件の探索や、部門・基準の偏りの発見に使います。",
   chart_audit: "hashIntegrityRate: レコードのハッシュが期待通りの割合。 hashWarnings: 不整合（疑い）件数。 exceptionUnlockRate: 例外解除の発生度合い。 postFinalizeEditRate: 確定後の編集の度合い。高すぎる解除・編集は手続・権限の見直し材料になります。",
   drilldown: "選択中のKPIの数字の裏付けとして、参照すべき記録名・ログ名を一覧します。本番は監査DB・会議記録と接続し、数字と根拠を突合する導線です。",
 };
@@ -216,7 +216,7 @@ function currentRecord() {
   let record = integratedState.masterData.finalDecisionRecords.find((r) => r.candidateId === id);
   if (record) return record;
 
-  // レコードが存在しない候補者は、表示継続のため初期レコードを自動生成する
+  // レコードが存在しない評価対象者は、表示継続のため初期レコードを自動生成する
   const p0 = currentP0();
   const fallbackOutcome = p0?.recommendedOutcome || "Hold";
   record = {
@@ -297,16 +297,24 @@ function renderPersonaStrip() {
     b.addEventListener("click", () => {
       integratedState.session.selectedCandidateId = b.dataset.candidateId;
       byId("candidate-select").value = b.dataset.candidateId;
-      integratedState.decision.unlockApproved = false;
-      byId("unlock-form").classList.add("hidden");
-      dispatchEvent("candidate_selected", { candidateId: b.dataset.candidateId });
-      renderPersonaStrip();
-      renderSidePanel();
-      renderAiSummaryBlock();
-      renderFinalizePanel();
-      recomputeAnalytics();
+      onCandidateChange();
     });
   });
+}
+
+/** 評価対象者を変えたとき: 会議ライブの表示・イベントログをリセットし、タブ切替は行わない */
+function onCandidateChange() {
+  resetMeetingPanel();
+  integratedState.decision.unlockApproved = false;
+  byId("unlock-form").classList.add("hidden");
+  dispatchEvent("candidate_selected", { candidateId: integratedState.session.selectedCandidateId });
+  renderPersonaStrip();
+  renderSidePanel();
+  integratedState.ui.aiSummaryExpanded = true;
+  renderAiSummaryBlock();
+  renderAiSummaryAccordion();
+  renderFinalizePanel();
+  recomputeAnalytics();
 }
 
 function renderScenarioSelect() {
@@ -423,7 +431,7 @@ function renderFinalizeBrief() {
     <div class="muted">懸念: ${concerns.join(" / ") || "特記事項なし"}</div>`;
   byId("brief-nudge-summary").innerHTML = `
     <div>採用: <strong>${nudgeAccepted}</strong> 件 / 見送り: <strong>${nudgeDismissed}</strong> 件</div>
-    <div class="muted">この候補者の会議運営ログとして監査へ記録</div>`;
+    <div class="muted">この評価対象者の会議運営ログとして監査へ記録</div>`;
   byId("brief-audit-status").innerHTML = `
     <div>ロック状態: <strong>${r.finalizedFlag ? "確定済み" : "未確定"}</strong></div>
     <div>hash整合: <strong>${hashOk ? "OK" : "要確認"}</strong></div>
@@ -471,13 +479,23 @@ function resetMeetingPanel() {
   integratedState.meeting.nudgeLog = [];
   integratedState.meeting.speakerDurations = {};
   integratedState.meeting.timeline = [];
+  integratedState.meeting.eventLog = [];
   integratedState.meeting.replayRunning = false;
   integratedState.meeting.replayScenarioId = null;
+  integratedState.session.currentPhase = "PreCheck";
   byId("timeline").innerHTML = "";
   byId("nudge-panel").innerHTML = "<span class='muted'>ナッジ待機中</span>";
   byId("agenda-progress").textContent = "-";
   byId("speaker-balance").textContent = "-";
   byId("silence-ratio").textContent = "-";
+  const runBtn = byId("run-scenario");
+  if (runBtn) {
+    runBtn.disabled = false;
+    runBtn.textContent = "シナリオ実行";
+  }
+  renderEventLog();
+  renderPhaseStepper();
+  renderFinalizeBrief();
 }
 
 function appendAudit(eventType, reason, beforeSnapshot, afterSnapshot, actorId = "demo_user") {
@@ -597,7 +615,7 @@ function renderFinalizePanel() {
   const r = currentRecord();
   if (!r) return;
   byId("ai-human-summary").innerHTML = `
-    <div><strong>候補者:</strong> ${currentCandidate()?.name || "-"}（${r.candidateId}）</div>
+    <div><strong>評価対象者:</strong> ${currentCandidate()?.name || "-"}（${r.candidateId}）</div>
     <div>AI案: <strong>${outcomeJa(r.aiOutcome)} (${r.aiOutcome})</strong></div>
     <div>現在値: <strong>${outcomeJa(r.humanOutcome)} (${r.humanOutcome})</strong></div>
     <div>lockVersion: ${r.lockVersion}</div>`;
@@ -748,7 +766,7 @@ function renderAnalytics() {
   byId("chart-nudge").innerHTML = s.charts.nudgeStacked.map((d) => `${barRow(`${d.type} shown`, d.shown, 10)}${barRow(`${d.type} accepted`, d.accepted, 10, "ok")}`).join("");
   byId("chart-gap").innerHTML = s.charts.aiHumanGapDistribution.map((d) => `<div class="bar-row"><div><button class="chip gap-btn" data-cid="${d.candidateId}">${d.candidateId}</button></div><div class="bar-bg"><div class="bar-fill warn" style="width:${Math.min(100, d.gap * 3)}%"></div></div><div>${d.gap}</div></div>`).join("");
   document.querySelectorAll(".gap-btn").forEach((b) => b.addEventListener("click", () => {
-    byId("drilldown").innerHTML = `<div>候補者 ${b.dataset.cid} の根拠: <span class="mono">final_decisions:${b.dataset.cid}</span></div>`;
+    byId("drilldown").innerHTML = `<div>評価対象者 ${b.dataset.cid} の根拠: <span class="mono">final_decisions:${b.dataset.cid}</span></div>`;
     dispatchEvent("drilldown_opened", { candidateId: b.dataset.cid });
   }));
   byId("chart-audit").innerHTML = [
@@ -847,7 +865,7 @@ function renderCriteriaSummary() {
 function renderAiSummaryBlock() {
   const p0 = currentP0();
   if (!p0) {
-    byId("ai-summary-block").innerHTML = "<div class='muted'>候補者を選択してください。</div>";
+    byId("ai-summary-block").innerHTML = "<div class='muted'>評価対象者を選択してください。</div>";
     return;
   }
   const strengths = (p0.explainTrace || []).slice(0, 2);
@@ -892,15 +910,7 @@ function switchTab(name) {
 function bindEvents() {
   byId("candidate-select").addEventListener("change", (e) => {
     integratedState.session.selectedCandidateId = e.target.value;
-    integratedState.decision.unlockApproved = false;
-    byId("unlock-form").classList.add("hidden");
-    dispatchEvent("candidate_selected", { candidateId: e.target.value });
-    renderPersonaStrip();
-    renderSidePanel();
-    renderAiSummaryBlock();
-    renderFinalizePanel();
-    renderFinalizeBrief();
-    recomputeAnalytics();
+    onCandidateChange();
   });
   document.querySelectorAll("#main-tabs button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
   document.querySelectorAll("#mobile-tabbar button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));

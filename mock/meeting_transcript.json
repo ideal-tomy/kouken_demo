@@ -9,7 +9,7 @@
       "name": "発言偏在型",
       "intent": "上位話者への集中を検知し、参加促進ナッジを発火させる",
       "agenda": [
-        { "stepId": "A1", "title": "候補者P07の昇進妥当性確認", "timeboxMin": 8 },
+        { "stepId": "A1", "title": "評価対象者P07の昇進妥当性確認", "timeboxMin": 8 },
         { "stepId": "A2", "title": "育成再現性と組織影響の確認", "timeboxMin": 7 }
       ],
       "utterances": [
@@ -26,7 +26,7 @@
       "name": "異論不足型",
       "intent": "同意偏重を検知し、代替視点ナッジを発火させる",
       "agenda": [
-        { "stepId": "B1", "title": "候補者P02の昇進判断", "timeboxMin": 7 },
+        { "stepId": "B1", "title": "評価対象者P02の昇進判断", "timeboxMin": 7 },
         { "stepId": "B2", "title": "プレゼンス課題の扱い確認", "timeboxMin": 6 }
       ],
       "utterances": [

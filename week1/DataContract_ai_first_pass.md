@@ -5,7 +5,7 @@
 
 ## ルート構造
 - `meta`: 生成情報
-- `records`: 候補者ごとのAI一次判定配列
+- `records`: 評価対象者ごとのAI一次判定配列
 
 ## `records[]` 必須フィールド
 - `candidateId` (string)

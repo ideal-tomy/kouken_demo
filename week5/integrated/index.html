@@ -13,30 +13,33 @@
         <p>公平な会議運営、確定後の監査、会議後レポートを一連で確認できます。</p>
       </div>
       <div class="header-controls">
-        <label>候補者選択
+        <label>評価対象者選択
           <select id="candidate-select"></select>
         </label>
       </div>
     </header>
 
     <section class="guide panel">
-      <h3>最初にやること（5〜7分）</h3>
+      <h3>デモの流れ（目安 5〜7分）</h3>
       <div class="guide-steps">
-        <div class="guide-step"><strong>1.</strong> 会議ライブで「シナリオ実行」</div>
-        <div class="guide-step"><strong>2.</strong> 確定・監査で「最終確定」</div>
-        <div class="guide-step"><strong>3.</strong> 分析で「自動レポート生成」</div>
+        <div class="guide-step"><strong>①</strong> 評価対象者を選択</div>
+        <div class="guide-step"><strong>②</strong> AI総合判定の内容確認</div>
+        <div class="guide-step"><strong>③</strong> シナリオ実行ボタンを押す</div>
+        <div class="guide-step"><strong>④</strong> 採用or見送りボタンを選択</div>
+        <div class="guide-step"><strong>⑤</strong> 確認・監査ページで『差分理由』と『決定者』を入力し最終確定</div>
+        <div class="guide-step"><strong>⑥</strong> 分析・レポートページで『自動レポート生成』を押す</div>
       </div>
     </section>
 
     <section class="phase-stepper" id="phase-stepper"></section>
     <section class="persona-strip panel">
-      <h3>評価対象ペルソナ</h3>
+      <h3>評価対象者</h3>
       <div id="persona-strip-list" class="persona-strip-list"></div>
     </section>
 
     <main class="layout">
       <aside class="side-panel panel">
-        <h3>候補者サマリ</h3>
+        <h3>評価対象者サマリ</h3>
         <div id="candidate-summary"></div>
         <div id="candidate-visuals"></div>
         <h4>重要アラート</h4>
@@ -78,10 +81,16 @@
                 <div id="nudge-panel"></div>
               </div>
             </div>
-            <h4>発言タイムライン</h4>
-            <div id="timeline"></div>
-            <h4 class="heading-with-help">イベントログ<button type="button" class="help-btn" data-help-key="event_log" aria-label="イベントログの説明">?</button></h4>
-            <div id="event-log"></div>
+            <div class="meeting-live-columns" aria-label="会議ライブ: 発言とイベント">
+              <div class="meeting-live-block">
+                <h4>発言タイムライン</h4>
+                <div id="timeline" class="meeting-feed-panel"></div>
+              </div>
+              <div class="meeting-live-block">
+                <h4 class="heading-with-help">イベントログ<button type="button" class="help-btn" data-help-key="event_log" aria-label="イベントログの説明">?</button></h4>
+                <div id="event-log" class="meeting-feed-panel"></div>
+              </div>
+            </div>
           </article>
         </section>
 
