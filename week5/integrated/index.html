@@ -55,8 +55,8 @@
 
         <section id="tab-meeting" class="tab-content active">
           <article class="panel">
-            <h3>見るポイント</h3>
-            <p>発言偏在と未発言者を確認し、AIナッジの採用で会議品質が改善するかを見ます。</p>
+            <h3>AI総合判定</h3>
+            <div id="ai-summary-block"></div>
           </article>
           <article class="panel">
             <div class="toolbar">
@@ -121,6 +121,8 @@
               <div id="tamper-banner" class="banner hidden">改ざん疑義: recordHash不一致</div>
               <button id="show-audit">監査ログ表示</button>
               <div id="audit-log" class="hidden"></div>
+              <h4>ナッジ採否履歴</h4>
+              <div id="nudge-audit-log"></div>
             </div>
           </article>
         </section>

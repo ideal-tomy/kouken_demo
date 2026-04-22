@@ -45,6 +45,23 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
   padding: 8px 10px;
   text-align: center;
   font-size: var(--font-sm);
+  cursor: pointer;
+}
+.phase-item:hover { border-color: var(--accent); }
+.phase-item.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.phase-item.disabled:hover { border-color: var(--line); }
+.phase-item-label { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+.phase-item.active .phase-item-label { color: #2e2e38; }
+
+.notice {
+  border: 1px solid var(--line);
+  background: #2a2b34;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 8px;
 }
 .phase-item.active { border-color: var(--accent); color: #1c1c1c; background: var(--accent); font-weight: 700; }
 
@@ -139,6 +156,12 @@ input { width: 100%; }
 }
 .dot-ai { background: var(--accent); }
 .dot-human { background: var(--ok); }
+.legend-list {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
 
 /* 会議室スクリーン投影用: 文字と余白をさらに拡大 */
 @media (min-width: 1600px) {
