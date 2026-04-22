@@ -38,6 +38,7 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
   gap: 8px;
   padding: 10px 20px;
 }
+.phase-stepper { display: none; }
 .phase-item {
   background: #2a2b34;
   border: 1px solid var(--line);
