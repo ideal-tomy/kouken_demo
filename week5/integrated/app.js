@@ -37,6 +37,14 @@ const integratedState = {
   },
 };
 
+const phaseLabels = {
+  PreCheck: "会議前確認",
+  MeetingLive: "会議ライブ",
+  FinalizeLock: "確定・監査",
+  PostAnalytics: "分析",
+  AutoReport: "レポート",
+};
+
 function byId(id) { return document.getElementById(id); }
 
 function simpleHash(input) {
@@ -107,7 +115,7 @@ function currentRecord() {
 
 function renderPhaseStepper() {
   const phases = ["PreCheck", "MeetingLive", "FinalizeLock", "PostAnalytics", "AutoReport"];
-  byId("phase-stepper").innerHTML = phases.map((p) => `<div class="phase-item ${integratedState.session.currentPhase === p ? "active" : ""}">${p}</div>`).join("");
+  byId("phase-stepper").innerHTML = phases.map((p) => `<div class="phase-item ${integratedState.session.currentPhase === p ? "active" : ""}">${phaseLabels[p]}</div>`).join("");
 }
 
 function renderCandidateSelect() {
@@ -115,6 +123,31 @@ function renderCandidateSelect() {
   sel.innerHTML = integratedState.masterData.candidates.map((c) => `<option value="${c.candidateId}">${c.candidateId} ${c.name}</option>`).join("");
   integratedState.session.selectedCandidateId = integratedState.masterData.candidates[0]?.candidateId || null;
   sel.value = integratedState.session.selectedCandidateId;
+}
+
+function renderPersonaStrip() {
+  const host = byId("persona-strip-list");
+  host.innerHTML = integratedState.masterData.candidates.map((c) => {
+    const active = c.candidateId === integratedState.session.selectedCandidateId ? "active" : "";
+    return `<button class="persona-btn ${active}" data-candidate-id="${c.candidateId}">
+      <div class="avatar">👤</div>
+      <div class="mono">${c.candidateId}</div>
+      <div>${c.name.split(" ")[0] || c.name}</div>
+    </button>`;
+  }).join("");
+  host.querySelectorAll(".persona-btn").forEach((b) => {
+    b.addEventListener("click", () => {
+      integratedState.session.selectedCandidateId = b.dataset.candidateId;
+      byId("candidate-select").value = b.dataset.candidateId;
+      integratedState.decision.unlockApproved = false;
+      byId("unlock-form").classList.add("hidden");
+      dispatchEvent("candidate_selected", { candidateId: b.dataset.candidateId });
+      renderPersonaStrip();
+      renderSidePanel();
+      renderFinalizePanel();
+      recomputeAnalytics();
+    });
+  });
 }
 
 function renderScenarioSelect() {
@@ -130,11 +163,50 @@ function renderSidePanel() {
   if (!c || !p0 || !r) return;
 
   byId("candidate-summary").innerHTML = `
+    <div class="avatar">👤</div>
     <div><strong>${c.name}</strong> (${c.candidateId})</div>
     <div class="muted">${c.division} / ${c.grade}</div>
-    <div class="chip">${p0.recommendedOutcome}</div>
-    <div class="chip">confidence ${p0.confidenceScore}</div>
+    <div class="chip">${outcomeJa(p0.recommendedOutcome)}</div>
+    <div class="chip">信頼度 ${p0.confidenceScore}</div>
     <div class="chip">lockVersion ${r.lockVersion}</div>`;
+
+  const overall = {
+    perf: Math.round((p0.nineBoxAI.performance || 50) * 0.4),
+    feedback: Math.round((p0.confidenceScore || 60) * 0.3),
+    competency: Math.round(avg(Object.values(p0.competencyScores || {})) * 0.2),
+    org: 100 - Math.round((p0.nineBoxAI.performance || 50) * 0.4) - Math.round((p0.confidenceScore || 60) * 0.3) - Math.round(avg(Object.values(p0.competencyScores || {})) * 0.2),
+  };
+  const feedback = {
+    praise: 55,
+    constructive: 30,
+    concern: 15,
+  };
+  const aiPerf = p0.nineBoxAI.performance || 50;
+  const aiPot = p0.nineBoxAI.potential || 50;
+  const humanPerf = r.nineBoxHuman?.performance ?? aiPerf;
+  const humanPot = r.nineBoxHuman?.potential ?? aiPot;
+  byId("candidate-visuals").innerHTML = `
+    <div class="viz-grid">
+      <div class="viz-card">
+        <div class="donut" style="background: conic-gradient(var(--accent) 0 ${overall.perf}%, #5aa9ff ${overall.perf}% ${overall.perf + overall.feedback}%, #37c871 ${overall.perf + overall.feedback}% ${overall.perf + overall.feedback + overall.competency}%, #5a5c67 ${overall.perf + overall.feedback + overall.competency}% 100%)"></div>
+        <div class="donut-label">総合構成</div>
+      </div>
+      <div class="viz-card">
+        <div class="donut" style="background: conic-gradient(#37c871 0 ${feedback.praise}%, #5aa9ff ${feedback.praise}% ${feedback.praise + feedback.constructive}%, #ffb020 ${feedback.praise + feedback.constructive}% 100%)"></div>
+        <div class="donut-label">360評価</div>
+      </div>
+      <div class="viz-card radar">
+        ${renderRadarSvg(p0.competencyScores || {})}
+        <div class="donut-label">9軸レーダー</div>
+      </div>
+      <div class="viz-card">
+        <div class="ninebox-mini">
+          <div class="dot-ai" style="left:${aiPerf}%; top:${100 - aiPot}%;" title="AI"></div>
+          <div class="dot-human" style="left:${humanPerf}%; top:${100 - humanPot}%;" title="Human"></div>
+        </div>
+        <div class="donut-label">9-Box（黄:AI / 緑:Human）</div>
+      </div>
+    </div>`;
 
   const alerts = [];
   if (r.finalizedFlag) alerts.push("確定済み（通常編集不可）");
@@ -149,6 +221,34 @@ function renderSidePanel() {
       <li>乖離大ケースは判定理由をテンプレ化</li>
       <li>解除申請理由のカテゴリを標準化</li>
     </ul>`;
+}
+
+function avg(nums) {
+  if (!nums.length) return 0;
+  return nums.reduce((a, b) => a + Number(b || 0), 0) / nums.length;
+}
+
+function outcomeJa(v) {
+  if (v === "Promote") return "昇進推奨";
+  if (v === "Hold") return "据え置き";
+  return "育成優先";
+}
+
+function renderRadarSvg(scores) {
+  const keys = Object.keys(scores).slice(0, 9);
+  const values = keys.map((k) => Number(scores[k] || 0));
+  if (!keys.length) return "<div class='muted'>データなし</div>";
+  const cx = 60; const cy = 60; const r = 46;
+  const pts = values.map((v, i) => {
+    const a = (Math.PI * 2 * i) / values.length - Math.PI / 2;
+    const rr = (v / 100) * r;
+    return `${cx + rr * Math.cos(a)},${cy + rr * Math.sin(a)}`;
+  }).join(" ");
+  const axis = values.map((_, i) => {
+    const a = (Math.PI * 2 * i) / values.length - Math.PI / 2;
+    return `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(a)}" y2="${cy + r * Math.sin(a)}" stroke="#5a5c67" stroke-width="1"/>`;
+  }).join("");
+  return `<svg viewBox="0 0 120 120"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#5a5c67" stroke-width="1"/>${axis}<polygon points="${pts}" fill="rgba(255,230,0,0.35)" stroke="#ffe600" stroke-width="2"/></svg>`;
 }
 
 function resetMeetingPanel() {
@@ -257,14 +357,14 @@ function renderFinalizePanel() {
   const r = currentRecord();
   if (!r) return;
   byId("ai-human-summary").innerHTML = `
-    <div>AI案: <strong>${r.aiOutcome}</strong></div>
-    <div>Human現値: <strong>${r.humanOutcome}</strong></div>
+    <div>AI案: <strong>${outcomeJa(r.aiOutcome)} (${r.aiOutcome})</strong></div>
+    <div>現在値: <strong>${outcomeJa(r.humanOutcome)} (${r.humanOutcome})</strong></div>
     <div>lockVersion: ${r.lockVersion}</div>`;
   byId("human-outcome").value = r.humanOutcome;
   byId("delta-reason").value = r.deltaReason || "";
   byId("context-tags").value = (r.contextTags || []).join(",");
-  byId("finalize-status").textContent = r.finalizedFlag ? `Finalized by ${r.finalizedBy} at ${r.finalizedAt}` : "未確定";
-  byId("lock-state").textContent = r.finalizedFlag ? "LOCKED" : "UNLOCKED";
+  byId("finalize-status").textContent = r.finalizedFlag ? `確定済み: ${r.finalizedBy} / ${r.finalizedAt}` : "未確定";
+  byId("lock-state").textContent = r.finalizedFlag ? "ロック状態" : "未ロック";
   byId("request-unlock").disabled = !r.finalizedFlag;
 
   const readOnly = r.finalizedFlag && !integratedState.decision.unlockApproved;
@@ -273,7 +373,7 @@ function renderFinalizePanel() {
 
   const expected = calcRecordHash(r);
   const ok = expected === r.recordHash;
-  byId("hash-status").innerHTML = `<div>recordHash: <code>${r.recordHash}</code></div><div>expected: <code>${expected}</code></div><div>${ok ? "整合性OK" : "整合性Warning"}</div>`;
+  byId("hash-status").innerHTML = `<div>記録ハッシュ: <code>${r.recordHash}</code></div><div>照合値: <code>${expected}</code></div><div>${ok ? "整合性OK" : "整合性要確認"}</div>`;
   byId("tamper-banner").classList.toggle("hidden", ok);
   const history = integratedState.audit.events.filter((a) => a.candidateId === r.candidateId);
   byId("audit-log").innerHTML = history.map((h) => `<div class="log-line"><div>${h.eventType} / ${h.eventAt}</div><div class="muted">${h.reason}</div></div>`).join("");
@@ -383,6 +483,7 @@ function renderAnalytics() {
       <div>${k.label}</div>
       <div class="kpi-score">${k.score}</div>
       <div class="${k.delta >= 0 ? "delta-up" : "delta-down"}">${k.delta >= 0 ? "+" : ""}${k.delta}${k.unit}</div>
+      <div class="hint">${kpiHint(k.id)}</div>
     </div>`).join("");
   document.querySelectorAll(".kpi-card").forEach((el) => el.addEventListener("click", () => openDrilldown(el.dataset.kpi)));
 
@@ -413,6 +514,17 @@ function openDrilldown(kpiId) {
   byId("drilldown").innerHTML = `<div><strong>${kpiId}</strong> の根拠</div><ul>${refs.map((r) => `<li class="mono">${r}</li>`).join("")}</ul>`;
 }
 
+function kpiHint(id) {
+  const map = {
+    participation_equity: "発言の偏りが小さいほど高評価",
+    nudge_effectiveness: "ナッジ採用後の改善度",
+    explainability: "根拠付きで説明できる割合",
+    collaboration_quality: "議論の質と合意形成の健全性",
+    calibration_gap: "AIと最終判断の差の収束度",
+  };
+  return map[id] || "";
+}
+
 function renderReport() {
   const s = integratedState.analytics.snapshot || integratedState.masterData.analyticsSeed;
   const t = integratedState.masterData.reportTemplates;
@@ -433,9 +545,9 @@ function renderReport() {
     snapshotId: `snapshot-${Date.now()}`,
   };
   byId("report-content").innerHTML = `
-    <p><strong>Executive Summary</strong><br>${t.executiveSummaryTemplate}</p>
-    <p><strong>KPI Summary</strong><br>${kpiSummary}</p>
-    <p><strong>Governance</strong><br>${governance}</p>
+    <p><strong>結論</strong><br>${t.executiveSummaryTemplate}</p>
+    <p><strong>根拠（KPI）</strong><br>${kpiSummary}</p>
+    <p><strong>監査観点</strong><br>${governance}</p>
     <p><strong>改善アクション（提案）</strong></p>
     <ul>
       <li>担当: 評価会議Chair / 期限: 次回会議前 / 効果: 発言偏在-15%</li>
@@ -451,9 +563,14 @@ function renderCriteriaSummary() {
   const text = integratedState.criteriaMd || "";
   const lines = text.split("\n").filter((l) => l.startsWith("## ") || l.startsWith("- "));
   byId("criteria-summary").innerHTML = `
-    <div class="muted">AI判定基準_仮.md から重要項目を表示</div>
-    <ul>${lines.slice(0, 24).map((l) => `<li>${l.replace(/^[-# ]+/, "")}</li>`).join("")}</ul>
-    <p><strong>ガードレール:</strong> AIは支援役であり最終決裁しない。人間の差分理由は監査ログに記録される。</p>`;
+    <p><strong>ガードレール:</strong> AIは提案のみ。最終決裁は人間が実施します。</p>
+    <div class="grid2">
+      <div class="viz-card"><strong>入力</strong><ul><li>定量（売上/粗利/品質）</li><li>定性（360コメント）</li><li>文脈タグ</li></ul></div>
+      <div class="viz-card"><strong>判定</strong><ul><li>データ品質確認</li><li>9軸スコア化</li><li>バイアス検知</li></ul></div>
+      <div class="viz-card"><strong>出力</strong><ul><li>推奨判定</li><li>信頼度</li><li>強み/懸念/要確認</li></ul></div>
+      <div class="viz-card"><strong>人間補正</strong><ul><li>最終判断</li><li>差分理由</li><li>監査ログ</li></ul></div>
+    </div>
+    <details><summary>基準詳細を表示</summary><ul>${lines.slice(0, 16).map((l) => `<li>${l.replace(/^[-# ]+/, "")}</li>`).join("")}</ul></details>`;
 }
 
 function renderEventLog() {
@@ -475,25 +592,29 @@ function bindEvents() {
     integratedState.decision.unlockApproved = false;
     byId("unlock-form").classList.add("hidden");
     dispatchEvent("candidate_selected", { candidateId: e.target.value });
+    renderPersonaStrip();
     renderSidePanel();
     renderFinalizePanel();
     recomputeAnalytics();
   });
   document.querySelectorAll("#main-tabs button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
   byId("run-scenario").addEventListener("click", runScenario);
-  byId("reset-meeting").addEventListener("click", resetMeetingPanel);
+  const resetBtn = byId("reset-meeting");
+  if (resetBtn) resetBtn.addEventListener("click", resetMeetingPanel);
   byId("finalize").addEventListener("click", finalizeOrEdit);
   byId("request-unlock").addEventListener("click", requestUnlock);
   byId("approve-unlock").addEventListener("click", approveUnlock);
   byId("show-audit").addEventListener("click", () => byId("audit-log").classList.toggle("hidden"));
   byId("generate-report").addEventListener("click", renderReport);
-  byId("toggle-report").addEventListener("click", () => byId("report-panel").classList.toggle("hidden"));
+  const toggleBtn = byId("toggle-report");
+  if (toggleBtn) toggleBtn.addEventListener("click", () => byId("report-panel").classList.toggle("hidden"));
 }
 
 async function init() {
   try {
     await loadData();
     renderCandidateSelect();
+    renderPersonaStrip();
     renderScenarioSelect();
     renderPhaseStepper();
     resetMeetingPanel();

@@ -9,22 +9,36 @@
   <body>
     <header class="app-header">
       <div>
-        <h1>AI Equity Integrated Dashboard</h1>
-        <p>会議体験 / 確定監査 / 会議後分析を単一導線で実演（AIは最終決裁しない）。</p>
+        <h1>評価会議デモ（統合ダッシュボード）</h1>
+        <p>公平な会議運営、確定後の監査、会議後レポートを一連で確認できます。</p>
       </div>
       <div class="header-controls">
-        <label>候補者
+        <label>候補者選択
           <select id="candidate-select"></select>
         </label>
       </div>
     </header>
 
+    <section class="guide panel">
+      <h3>最初にやること（5〜7分）</h3>
+      <div class="guide-steps">
+        <div class="guide-step"><strong>1.</strong> 会議ライブで「シナリオ実行」</div>
+        <div class="guide-step"><strong>2.</strong> 確定・監査で「最終確定」</div>
+        <div class="guide-step"><strong>3.</strong> 分析で「自動レポート生成」</div>
+      </div>
+    </section>
+
     <section class="phase-stepper" id="phase-stepper"></section>
+    <section class="persona-strip panel">
+      <h3>評価対象ペルソナ</h3>
+      <div id="persona-strip-list" class="persona-strip-list"></div>
+    </section>
 
     <main class="layout">
       <aside class="side-panel panel">
-        <h3>会議サマリ</h3>
+        <h3>候補者サマリ</h3>
         <div id="candidate-summary"></div>
+        <div id="candidate-visuals"></div>
         <h4>重要アラート</h4>
         <div id="alert-list"></div>
         <h4>次アクション</h4>
@@ -41,14 +55,13 @@
 
         <section id="tab-meeting" class="tab-content active">
           <article class="panel">
-            <h3>経営向け要約</h3>
-            <p>発言バランスと異論提出状況を可視化し、会議品質を改善します。AIはナッジ提案を行い、採否は人間が判断します。</p>
+            <h3>見るポイント</h3>
+            <p>発言偏在と未発言者を確認し、AIナッジの採用で会議品質が改善するかを見ます。</p>
           </article>
           <article class="panel">
             <div class="toolbar">
               <select id="scenario-select"></select>
               <button id="run-scenario">シナリオ実行</button>
-              <button id="reset-meeting">リセット</button>
             </div>
             <div class="grid2">
               <div>
@@ -71,42 +84,42 @@
 
         <section id="tab-finalize" class="tab-content">
           <article class="panel">
-            <h3>経営向け要約</h3>
-            <p>確定後は原則変更不可。例外解除は理由・承認・差分を監査に残し、ガバナンスを担保します。</p>
+            <h3>見るポイント</h3>
+            <p>最終確定後は原則編集できません。例外解除は理由・承認・差分を必ず残します。</p>
           </article>
           <article class="panel grid2">
             <div>
               <h4>最終判断</h4>
               <div id="ai-human-summary"></div>
-              <label>Human最終判定
+              <label>最終判定
                 <select id="human-outcome">
-                  <option value="Promote">Promote</option>
-                  <option value="Hold">Hold</option>
-                  <option value="Develop">Develop</option>
+                  <option value="Promote">昇進推奨（Promote）</option>
+                  <option value="Hold">据え置き（Hold）</option>
+                  <option value="Develop">育成優先（Develop）</option>
                 </select>
               </label>
               <label>差分理由（必須）<textarea id="delta-reason"></textarea></label>
               <label>文脈タグ（カンマ区切り）<input id="context-tags" /></label>
               <label>決定者（必須）<input id="decider" placeholder="chair_01" /></label>
               <div class="toolbar">
-                <button id="finalize" class="accent">Finalize / 保存</button>
+                <button id="finalize" class="accent">最終確定</button>
                 <span id="finalize-status"></span>
               </div>
             </div>
             <div>
               <h4>ロック・例外解除</h4>
               <div id="lock-state"></div>
-              <button id="request-unlock">例外解除を申請</button>
+              <button id="request-unlock">例外解除申請</button>
               <div id="unlock-form" class="hidden">
                 <label>解除理由（必須）<textarea id="unlock-reason"></textarea></label>
                 <label>影響範囲（必須）<input id="unlock-impact" /></label>
                 <label>承認者（必須）<input id="unlock-approver" /></label>
-                <button id="approve-unlock">解除承認（デモ）</button>
+                <button id="approve-unlock">解除承認</button>
               </div>
               <h4>監査</h4>
               <div id="hash-status"></div>
               <div id="tamper-banner" class="banner hidden">改ざん疑義: recordHash不一致</div>
-              <button id="show-audit">監査ログ表示切替</button>
+              <button id="show-audit">監査ログ表示</button>
               <div id="audit-log" class="hidden"></div>
             </div>
           </article>
@@ -114,11 +127,10 @@
 
         <section id="tab-analytics" class="tab-content">
           <article class="panel">
-            <h3>経営向け要約</h3>
-            <p>KPI 5種で公平性・説明可能性・校正品質を定量化し、次回会議の改善提案を自動提示します。</p>
+            <h3>見るポイント</h3>
+            <p>KPI 5種で改善効果を確認し、次回会議のアクションを自動生成します。</p>
             <div class="toolbar">
               <button id="generate-report" class="accent">自動レポート生成</button>
-              <button id="toggle-report">レポート表示切替</button>
             </div>
           </article>
           <section id="kpi-cards" class="kpi-grid"></section>
@@ -135,8 +147,8 @@
 
         <section id="tab-criteria" class="tab-content">
           <article class="panel">
-            <h3>経営向け要約</h3>
-            <p>AI判定は「根拠付き一次案」です。最終決裁は人間が行い、差分は監査に残ります。</p>
+            <h3>見るポイント</h3>
+            <p>AIが何を入力に、どう判定し、どう人間判断へ接続するかを4ブロックで確認します。</p>
           </article>
           <article class="panel">
             <h4>AI判定基準（要約）</h4>
