@@ -56,8 +56,8 @@
         <section id="tab-meeting" class="tab-content active">
           <article class="panel" id="ai-summary-panel">
             <div class="toolbar between">
-              <h3>AI総合判定（会議前ブリーフ）</h3>
-              <button id="toggle-ai-summary">閉じる</button>
+              <h3 class="heading-with-help">AI総合判定（会議前ブリーフ）<button type="button" class="help-btn" data-help-key="ai_brief" aria-label="AI総合判定（会議前ブリーフ）の説明">?</button></h3>
+              <button type="button" id="toggle-ai-summary">閉じる</button>
             </div>
             <div id="ai-summary-block"></div>
           </article>
@@ -74,13 +74,13 @@
                 <div id="silence-ratio"></div>
               </div>
               <div>
-                <h4>AIナッジ</h4>
+                <h4 class="heading-with-help">AIナッジ<button type="button" class="help-btn" data-help-key="nudge" aria-label="AIナッジの説明">?</button></h4>
                 <div id="nudge-panel"></div>
               </div>
             </div>
             <h4>発言タイムライン</h4>
             <div id="timeline"></div>
-            <h4>イベントログ</h4>
+            <h4 class="heading-with-help">イベントログ<button type="button" class="help-btn" data-help-key="event_log" aria-label="イベントログの説明">?</button></h4>
             <div id="event-log"></div>
           </article>
         </section>
@@ -110,7 +110,7 @@
           </article>
           <article class="panel grid2">
             <div>
-              <h4 id="finalize-title">最終判断</h4>
+              <h4 class="heading-with-help" id="finalize-title"><span id="finalize-title-text">最終判断</span></h4>
               <div id="ai-human-summary"></div>
               <label>最終判定
                 <select id="human-outcome">
@@ -119,8 +119,8 @@
                   <option value="Develop">育成優先（Develop）</option>
                 </select>
               </label>
-              <label>差分理由（必須）<textarea id="delta-reason"></textarea></label>
-              <label>文脈タグ（カンマ区切り）<input id="context-tags" /></label>
+              <label class="field-block"><span class="field-label">差分理由（必須）<button type="button" class="help-btn" data-help-key="delta_reason" aria-label="差分理由の説明">?</button></span><textarea id="delta-reason"></textarea></label>
+              <label class="field-block"><span class="field-label">文脈タグ（カンマ区切り）<button type="button" class="help-btn" data-help-key="context_tags" aria-label="文脈タグの説明">?</button></span><input id="context-tags" /></label>
               <label>決定者（必須）<input id="decider" placeholder="chair_01" /></label>
               <div class="toolbar">
                 <button id="finalize" class="accent">最終確定</button>
@@ -128,7 +128,7 @@
               </div>
             </div>
             <div>
-              <h4 id="audit-title">ロック・例外解除</h4>
+              <h4 class="heading-with-help" id="audit-title"><span id="audit-title-text">ロック・例外解除</span><button type="button" class="help-btn" data-help-key="lock_unlock" aria-label="ロックと例外解除の説明">?</button></h4>
               <div id="lock-state"></div>
               <button id="request-unlock">例外解除申請</button>
               <div id="unlock-form" class="hidden">
@@ -157,13 +157,13 @@
           </article>
           <section id="kpi-cards" class="kpi-grid"></section>
           <section class="grid2">
-            <article class="panel"><h4>発言エクイティ推移</h4><div id="chart-participation"></div><p class="hint">会議回ごとの偏在改善度。</p></article>
-            <article class="panel"><h4>ナッジ採否効果</h4><div id="chart-nudge"></div><p class="hint">採用率と改善効果の関係。</p></article>
-            <article class="panel"><h4>AI/Human乖離分布</h4><div id="chart-gap"></div><p class="hint">基準差の大きい案件を特定。</p></article>
-            <article class="panel"><h4>監査整合性</h4><div id="chart-audit"></div><p class="hint">hash整合率と例外変更率。</p></article>
+            <article class="panel"><h4 class="heading-with-help">発言エクイティ推移（M-01 など）<button type="button" class="help-btn" data-help-key="chart_participation" aria-label="発言エクイティ推移の説明">?</button></h4><div id="chart-participation"></div><p class="hint">会議回ごとの偏在改善度。</p></article>
+            <article class="panel"><h4 class="heading-with-help">ナッジ採否効果<button type="button" class="help-btn" data-help-key="chart_nudge" aria-label="ナッジ採否効果の説明">?</button></h4><div id="chart-nudge"></div><p class="hint">採用率と改善効果の関係。</p></article>
+            <article class="panel"><h4 class="heading-with-help">AI/Human乖離分布<button type="button" class="help-btn" data-help-key="chart_gap" aria-label="AIとHumanの乖離分布の説明">?</button></h4><div id="chart-gap"></div><p class="hint">基準差の大きい案件を特定。</p></article>
+            <article class="panel"><h4 class="heading-with-help">監査整合性<button type="button" class="help-btn" data-help-key="chart_audit" aria-label="監査整合性指標の説明">?</button></h4><div id="chart-audit"></div><p class="hint">hash整合率と例外変更率。</p></article>
           </section>
           <article class="panel"><h4>AI所見</h4><div id="insights"></div></article>
-          <article class="panel"><h4>根拠ドリルダウン</h4><div id="drilldown"></div></article>
+          <article class="panel"><h4 class="heading-with-help">根拠ドリルダウン<button type="button" class="help-btn" data-help-key="drilldown" aria-label="根拠ドリルダウンの説明">?</button></h4><div id="drilldown"></div></article>
           <article id="report-panel" class="panel hidden"><h4>自動レポート（概要）</h4><div id="report-content"></div></article>
         </section>
 
@@ -173,12 +173,23 @@
             <p>AIが何を入力に、どう判定し、どう人間判断へ接続するかを4ブロックで確認します。</p>
           </article>
           <article class="panel criteria-panel">
-            <h4>AI判定基準（要約）</h4>
+            <h4 class="heading-with-help">AI判定基準（要約）<button type="button" class="help-btn" data-help-key="ai_criteria" aria-label="AI判定基準の説明">?</button></h4>
             <div id="criteria-summary"></div>
           </article>
         </section>
       </section>
     </main>
+
+    <nav id="mobile-tabbar" class="mobile-tabbar" aria-label="モバイルタブナビ">
+      <button data-tab="meeting" class="active">会議ライブ</button>
+      <button data-tab="finalize">確定・監査</button>
+      <button data-tab="analytics">分析・レポート</button>
+      <button data-tab="criteria">AI判定基準</button>
+    </nav>
+
+    <div id="help-popover" class="help-popover hidden" role="tooltip" aria-hidden="true">
+      <p id="help-popover-text"></p>
+    </div>
 
     <div id="toast" class="toast hidden"></div>
 

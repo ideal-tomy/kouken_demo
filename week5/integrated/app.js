@@ -57,6 +57,97 @@ const phaseToTab = {
 
 function byId(id) { return document.getElementById(id); }
 
+/** ? ボタン用。data-help-key と HELP_TEXTS のキーが一致する必要がある */
+const HELP_TEXTS = {
+  ai_brief: "AI判定基準を基に、各候補者のサマリを確認し、会議や最終判断に向けた意思決定の材料として用いている結果を示しています（人間の最終決裁を置き換えるものではありません）。表現内容は、クライアント側の設定（部署・職階・評価項目の重みづけなど）で変えられます。監査に残る最終判断とAI案の差分（差分理由・文脈・ログ）をナレッジとして蓄積し、学習ループに回すことで、基準のチューニングや改善の有効性を後から検証する想定です。推奨区分に加え、強み・懸念・会議で詰める論点の起点として使います。",
+  ai_criteria: "様々な評価基準や評価要素の重みづけと反映ロジックを、事前に登録しておくことで一貫した形で客観的な提案判定を出します。部署別・役職別、360度評価の重みの増減など、クライアント方針に合わせた調整が可能です。監査上の人間最終判断とAI案の差分や、その理由（差分理由・文脈タグ）の蓄積を学習・改善サイクルに戻し、基準の精度向上や、変更（ロールアウト）の有効性の検証に使う、という位置づけのデモです。",
+  nudge: "会議中、発言の偏在・未発言者の多さ・同意への偏りなど、条件に合うと表示される短い提言です。会議の公平性・多様性の改善を促します。採用／見送りは監査・分析の入力になります。",
+  event_log: "この画面セッション内で起きた主な操作（候補者切替、会議シナリオ、ナッジ表示・採用・見送りなど）の履歴です。事後の説明・再現のしやすさ用です。本番は監査システムのイベントと対応づけます。",
+  delta_reason: "AI推奨と人間の最終判断が異なる場合に、その理由を必ず残す欄です。納得性・再現性・説明責任の中核で、根拠の薄い最終判断を防ぎます。蓄積された内容は、AI判定基準の精度向上のための学習（フィードバック）やナレッジ化にも反映可能、という想定です。",
+  context_tags: "今回の判断の背景（事業文脈・クライアント要因・組織事情など）を短いラベルで付けます。後から同様の文脈の案件を比較・分析しやすくし、数字だけでは見えない解釈の差を扱えます。本項目も、AI判定基準のチューニングや学習に反映し、文脈別の当てはまりを改善する用途を想定しています。",
+  lock_unlock: "最終確定後は原則として編集不可（ロック）とし、事後改ざんのリスクを下げます。例外的に変更が必要なときは、理由・影響範囲・承認者を揃えて解除します。高い手続率はルール不備のサインになり得るため、定義の見直し材料にもします。",
+  kpi_participation_equity: "会議内の発言機会の公平性を表す指標です。特定の人に発言が偏るほど低くなりやすく、会議の民主性に関心を向けます。閾値や重みは組織方針でカスタマイズ可能、という想定をデモに含めます。",
+  kpi_nudge_effectiveness: "出したナッジに対し、採用され実運用上の改善（偏り是正など）に寄与した度合いの目安です。採択率だけが目的ではありません。ナッジ条件や「採用」の定義は設定で変えられます。",
+  kpi_explainability: "最終判断に、人間の言葉で根拠（差分理由など）が残っている度合いの目安です。後追いの説得・労使対応・監査での説明しやすさに効きます。",
+  kpi_collaboration_quality: "会議内の合意形成の健全さ・建設的な議論の度合いを束ねた品質指標のイメージです。定義式は職能・文化に合わせてカスタマイズ可能、という前提のデモ表現です。",
+  kpi_calibration_gap: "AI推奨と人間最終判断の食い違いが、組織として妥当な範囲に収束している度合いの目安です。常にゼロが最適とは限りません。意図的な補正は差分理由に残すことが重要です。",
+  chart_participation: "M-01・M-02・M-03は会議回（例示）で、会議を重ねるごとの発言エクイティの推移です。制度・ファシリ・ナッジ導入の定着度を示す想定で、1会議の定義は運用で設定できます。",
+  chart_nudge: "種類（participation＝参加・diversity＝多様性・evidence＝根拠促し など）ごとに、ナッジを出した回数（shown）と採用した回数（accepted）を積み上げ表示しています。どの偏りに対する介入を見ているか、運用の効きの目安になります。",
+  chart_gap: "候補者ごとに、AI案と人間最終の差の大きさを分布として見せています。説明工数が必要な案件の探索や、部門・基準の偏りの発見に使います。",
+  chart_audit: "hashIntegrityRate: レコードのハッシュが期待通りの割合。 hashWarnings: 不整合（疑い）件数。 exceptionUnlockRate: 例外解除の発生度合い。 postFinalizeEditRate: 確定後の編集の度合い。高すぎる解除・編集は手続・権限の見直し材料になります。",
+  drilldown: "選択中のKPIの数字の裏付けとして、参照すべき記録名・ログ名を一覧します。本番は監査DB・会議記録と接続し、数字と根拠を突合する導線です。",
+};
+
+function helpButtonHtml(helpKey) {
+  return `<button type="button" class="help-btn" data-help-key="${helpKey}" aria-label="この指標の説明" title="">?</button>`;
+}
+
+function initHelpPopover() {
+  const pop = byId("help-popover");
+  const textEl = byId("help-popover-text");
+  if (!pop || !textEl) return;
+  let openTrigger = null;
+
+  function position(trigger) {
+    const rect = trigger.getBoundingClientRect();
+    const maxW = Math.min(320, window.innerWidth - 24);
+    let left = rect.left + rect.width / 2 - maxW / 2;
+    left = Math.max(12, Math.min(left, window.innerWidth - maxW - 12));
+    const margin = 8;
+    const below = window.innerHeight - rect.bottom;
+    const est = 200;
+    let top;
+    if (below > est + 24) {
+      top = rect.bottom + margin;
+    } else {
+      top = Math.max(12, rect.top - est - margin);
+    }
+    pop.style.left = `${left}px`;
+    pop.style.top = `${top}px`;
+    pop.style.width = `${maxW}px`;
+  }
+
+  function close() {
+    pop.classList.add("hidden");
+    pop.setAttribute("aria-hidden", "true");
+    openTrigger = null;
+  }
+
+  function open(trigger) {
+    const key = trigger.dataset.helpKey;
+    if (!key || !HELP_TEXTS[key]) return;
+    textEl.textContent = HELP_TEXTS[key].replaceAll("。", "。\n").trim();
+    pop.classList.remove("hidden");
+    pop.setAttribute("aria-hidden", "false");
+    position(trigger);
+    openTrigger = trigger;
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if (t.closest && t.closest(".help-btn")) {
+      e.preventDefault();
+      const btn = t.closest(".help-btn");
+      if (openTrigger === btn && !pop.classList.contains("hidden")) {
+        close();
+        return;
+      }
+      open(btn);
+      return;
+    }
+    if (t.closest && t.closest("#help-popover")) return;
+    close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  const repos = () => { if (openTrigger && !pop.classList.contains("hidden")) position(openTrigger); };
+  window.addEventListener("resize", repos);
+  window.addEventListener("scroll", repos, true);
+}
+
 function simpleHash(input) {
   let h = 0;
   for (let i = 0; i < input.length; i++) h = (h * 31 + input.charCodeAt(i)) >>> 0;
@@ -531,8 +622,11 @@ function renderFinalizePanel() {
   byId("nudge-audit-log").innerHTML = nudgeHist.length
     ? nudgeHist.map((h) => `<div class="log-line"><span class="mono">${h.eventType}</span> ${h.reason}</div>`).join("")
     : "<div class='muted'>まだ記録なし</div>";
-  byId("finalize-title").textContent = `最終判断（${currentCandidate()?.name || "-"}）`;
-  byId("audit-title").textContent = `ロック・例外解除（${currentCandidate()?.name || "-"}）`;
+  const tName = currentCandidate()?.name || "-";
+  const ft = byId("finalize-title-text");
+  const at = byId("audit-title-text");
+  if (ft) ft.textContent = `最終判断（${tName}）`;
+  if (at) at.textContent = `ロック・例外解除（${tName}）`;
 }
 
 function finalizeOrEdit() {
@@ -638,12 +732,17 @@ function renderAnalytics() {
   if (!s) return;
   byId("kpi-cards").innerHTML = s.kpiCards.map((k) => `
     <div class="kpi-card" data-kpi="${k.id}">
-      <div>${k.label}</div>
+      <div class="kpi-card-title"><span>${k.label}</span>${helpButtonHtml(`kpi_${k.id}`)}</div>
       <div class="kpi-score">${k.score}</div>
       <div class="${k.delta >= 0 ? "delta-up" : "delta-down"}">${k.delta >= 0 ? "+" : ""}${k.delta}${k.unit}</div>
       <div class="hint">${kpiHint(k.id)}</div>
     </div>`).join("");
-  document.querySelectorAll(".kpi-card").forEach((el) => el.addEventListener("click", () => openDrilldown(el.dataset.kpi)));
+  document.querySelectorAll(".kpi-card").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      if (e.target.closest && e.target.closest(".help-btn")) return;
+      openDrilldown(el.dataset.kpi);
+    });
+  });
 
   byId("chart-participation").innerHTML = s.charts.participationTrend.map((d) => barRow(d.meeting, d.value)).join("");
   byId("chart-nudge").innerHTML = s.charts.nudgeStacked.map((d) => `${barRow(`${d.type} shown`, d.shown, 10)}${barRow(`${d.type} accepted`, d.accepted, 10, "ok")}`).join("");
@@ -785,6 +884,7 @@ function renderEventLog() {
 function switchTab(name) {
   integratedState.session.activeTab = name;
   document.querySelectorAll("#main-tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
+  document.querySelectorAll("#mobile-tabbar button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
   document.querySelectorAll(".tab-content").forEach((s) => s.classList.remove("active"));
   byId(`tab-${name}`).classList.add("active");
 }
@@ -803,6 +903,7 @@ function bindEvents() {
     recomputeAnalytics();
   });
   document.querySelectorAll("#main-tabs button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
+  document.querySelectorAll("#mobile-tabbar button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
   byId("run-scenario").addEventListener("click", runScenario);
   const resetBtn = byId("reset-meeting");
   if (resetBtn) resetBtn.addEventListener("click", resetMeetingPanel);
@@ -842,6 +943,7 @@ async function init() {
     recomputeAnalytics();
     renderCriteriaSummary();
     bindEvents();
+    initHelpPopover();
   } catch (e) {
     document.body.innerHTML = `<pre>Failed to load integrated dashboard: ${e.message}</pre>`;
   }

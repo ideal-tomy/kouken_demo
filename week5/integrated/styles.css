@@ -112,6 +112,63 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
   color: #1a2430;
   border-color: #5aa9ff;
 }
+.mobile-tabbar { display: none; }
+
+/* ヘルプ（?）ポップオーバー */
+.heading-with-help,
+.field-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+h3.heading-with-help, h4.heading-with-help { margin: 0 0 4px; }
+.field-block { display: block; }
+.field-block .field-label { margin: 0 0 4px; font-size: var(--font-sm); }
+.field-block .help-btn { flex-shrink: 0; }
+.help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4em;
+  min-width: 1.4em;
+  height: 1.4em;
+  min-height: 1.4em;
+  padding: 0;
+  line-height: 1;
+  font-size: 0.8em;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #2a2b34;
+  color: var(--muted);
+  vertical-align: middle;
+}
+.help-btn:hover { border-color: var(--accent); color: var(--text); }
+.kpi-card .kpi-card-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: var(--font-sm);
+}
+.kpi-card .kpi-card-title .help-btn { margin-top: 2px; }
+.help-popover {
+  position: fixed;
+  z-index: 2000;
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 10px 12px;
+  background: #2a2b34;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  font-size: var(--font-sm);
+  line-height: 1.5;
+  color: var(--text);
+  pointer-events: auto;
+}
+.help-popover p { margin: 0; white-space: pre-line; }
+.help-popover.hidden { display: none; }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
@@ -233,6 +290,87 @@ input { width: 100%; }
 .modal-body {
   overflow: auto;
   padding: 12px;
+}
+
+/* スマホ表示最適化: PCスタイルには影響させない */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 78px;
+  }
+  .app-header,
+  .guide,
+  .persona-strip,
+  .layout {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .app-header {
+    display: block;
+  }
+  .header-controls select {
+    min-width: 0;
+    width: 100%;
+  }
+  .guide-steps,
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .tabs {
+    display: none;
+  }
+  .mobile-tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1050;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+    background: rgba(31, 32, 40, 0.96);
+    border-top: 1px solid var(--line);
+    backdrop-filter: blur(4px);
+  }
+  .mobile-tabbar button {
+    min-height: 44px;
+    padding: 8px 4px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: normal;
+    word-break: keep-all;
+  }
+  .mobile-tabbar button.active {
+    background: var(--accent);
+    color: #1c1c1c;
+    font-weight: 700;
+    border-color: var(--accent);
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bar-row {
+    grid-template-columns: 110px 1fr 46px;
+    gap: 6px;
+  }
+  .modal-content {
+    width: 96vw;
+    max-height: 90vh;
+  }
+  .modal-footer {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .tabs button[data-tab="criteria"] {
+    margin-left: 0;
+  }
 }
 
 /* 会議室スクリーン投影用: 文字と余白をさらに拡大 */
