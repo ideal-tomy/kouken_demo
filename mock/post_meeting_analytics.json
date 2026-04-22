@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-04-22T23:30:00+09:00",
+    "source": ["final_decisions.json", "audit_log.json", "meeting_transcript.json", "nudge_rules.json"]
+  },
+  "kpiCards": [
+    { "id": "participation_equity", "label": "Participation Equity", "score": 78, "delta": 12, "unit": "pt", "status": "improving" },
+    { "id": "nudge_effectiveness", "label": "Nudge Effectiveness", "score": 64, "delta": 9, "unit": "pt", "status": "improving" },
+    { "id": "explainability", "label": "Explainability", "score": 86, "delta": 5, "unit": "pt", "status": "stable" },
+    { "id": "collaboration_quality", "label": "Collaboration Quality", "score": 72, "delta": 7, "unit": "pt", "status": "improving" },
+    { "id": "calibration_gap", "label": "Calibration Gap", "score": 68, "delta": -4, "unit": "pt", "status": "watch" }
+  ],
+  "charts": {
+    "participationTrend": [
+      { "meeting": "M-01", "value": 62 },
+      { "meeting": "M-02", "value": 68 },
+      { "meeting": "M-03", "value": 78 }
+    ],
+    "nudgeStacked": [
+      { "type": "participation", "shown": 5, "accepted": 3, "dismissed": 2 },
+      { "type": "diversity", "shown": 4, "accepted": 3, "dismissed": 1 },
+      { "type": "evidence", "shown": 3, "accepted": 2, "dismissed": 1 }
+    ],
+    "aiHumanGapDistribution": [
+      { "candidateId": "P07", "gap": 18, "decision": "Promote" },
+      { "candidateId": "P02", "gap": 22, "decision": "Hold" },
+      { "candidateId": "P05", "gap": 10, "decision": "Hold" },
+      { "candidateId": "P10", "gap": 14, "decision": "Develop" }
+    ],
+    "auditIntegrity": {
+      "hashIntegrityRate": 96,
+      "hashWarnings": 1,
+      "exceptionUnlockRate": 12,
+      "postFinalizeEditRate": 6
+    }
+  },
+  "insights": {
+    "strengths": [
+      "ナッジ採用後の未発言者率が改善し、発言エクイティが向上。",
+      "根拠付き最終判断率が高く、説明可能性が安定。"
+    ],
+    "risks": [
+      "一部候補者でAI-Human乖離が高く、判断基準の暗黙差が残存。",
+      "例外解除を伴う編集が発生しており、解除理由の標準化が必要。"
+    ],
+    "nextActions": [
+      "乖離上位ケースの判断理由をテンプレート化。",
+      "unlock_request理由をカテゴリ化し、再発防止ルールへ反映。"
+    ]
+  },
+  "drilldownRefs": {
+    "participation_equity": ["meeting_transcript:scenario:A", "meeting_transcript:scenario:B"],
+    "nudge_effectiveness": ["event_log:nudge_shown", "event_log:nudge_accepted"],
+    "explainability": ["final_decisions:P07", "evidence_catalog:P07"],
+    "collaboration_quality": ["meeting_transcript:all", "event_log:speaker_turn_changed"],
+    "calibration_gap": ["final_decisions:P02", "nineBoxGapLog:P02"]
+  }
+}

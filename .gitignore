@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Python local server/cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+logs/
+
+# IDE/editor
+.idea/
+.vscode/
+
+# Cursor local metadata
+.cursor/
+
+# Node artifacts (if added later)
+node_modules/
+dist/
+build/

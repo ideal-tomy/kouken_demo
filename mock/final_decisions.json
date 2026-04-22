@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "note": "Week3 Finalize/Lock用初期データ"
+  },
+  "records": [
+    {
+      "candidateId": "P07",
+      "aiOutcome": "Promote",
+      "humanOutcome": "Promote",
+      "deltaReason": "短期売上実績を認めつつ、育成再現性の条件付きで昇進。",
+      "contextTags": ["starPerformerHaloRisk", "successionRisk"],
+      "deciders": ["chair_01", "hr_01"],
+      "finalizedFlag": false,
+      "finalizedAt": null,
+      "finalizedBy": null,
+      "lockVersion": 0,
+      "recordHash": "H-INIT-P07",
+      "unlockRequest": null
+    },
+    {
+      "candidateId": "P02",
+      "aiOutcome": "Promote",
+      "humanOutcome": "Hold",
+      "deltaReason": "プレゼンス課題の改善計画を先に条件化するため据え置き。",
+      "contextTags": ["quietContribution", "presenceGap"],
+      "deciders": ["chair_01", "reviewer_02"],
+      "finalizedFlag": false,
+      "finalizedAt": null,
+      "finalizedBy": null,
+      "lockVersion": 0,
+      "recordHash": "H-INIT-P02",
+      "unlockRequest": null
+    }
+  ]
+}

@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "note": "Evidence Explorer表示用辞書。ai_first_pass.json の evidenceRefs を解決する。"
+  },
+  "evidence": [
+    {
+      "evidenceId": "performance_metrics:P01:revenue_q4",
+      "candidateId": "P01",
+      "sourceType": "KPI",
+      "title": "Q4売上貢献",
+      "snippet": "Q4に提案責任者として1.25億円の売上関与を記録。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P01:360:03",
+      "candidateId": "P01",
+      "sourceType": "360",
+      "title": "育成観点の建設的意見",
+      "snippet": "成果は高いが、レビューの厳しさで心理的安全性が下がる場面がある。",
+      "freshness": "2026-Q4",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "review_comments:P01:manager:01",
+      "candidateId": "P01",
+      "sourceType": "ManagerReview",
+      "title": "委任遅れに関する評価",
+      "snippet": "重要局面で自ら抱え込み、委任が遅れる傾向が確認された。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "meeting_transcript:M01:utterance:18",
+      "candidateId": "P01",
+      "sourceType": "Meeting",
+      "title": "会議での追加補足発言",
+      "snippet": "高難易度案件での事情説明は妥当だが、育成観点の再現性が論点化。",
+      "freshness": "2026-04-22",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "performance_metrics:P02:renewal_rate",
+      "candidateId": "P02",
+      "sourceType": "KPI",
+      "title": "継続契約率",
+      "snippet": "継続契約率88%。既存顧客との関係維持に強み。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P02:360:02",
+      "candidateId": "P02",
+      "sourceType": "360",
+      "title": "合意形成力の賞賛",
+      "snippet": "対立部門間で合意形成を主導し、改革案を成立させた。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P02:peer:05",
+      "candidateId": "P02",
+      "sourceType": "PeerReview",
+      "title": "プレゼンスに関する指摘",
+      "snippet": "役員向け場面で主張が慎重になり、押し切り力が弱く見える。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "project_artifact:P02:org_change_program",
+      "candidateId": "P02",
+      "sourceType": "ProjectArtifact",
+      "title": "制度再設計成果物",
+      "snippet": "全社評価制度再設計の導入計画と定着施策を完遂。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "performance_metrics:P03:inventory_turnover",
+      "candidateId": "P03",
+      "sourceType": "KPI",
+      "title": "在庫回転率改善",
+      "snippet": "主要顧客で在庫回転率を12%改善。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P03:manager:02",
+      "candidateId": "P03",
+      "sourceType": "ManagerReview",
+      "title": "要約力の課題",
+      "snippet": "分析説明が詳細過多で、役員判断に必要な要約が不足。",
+      "freshness": "2026-Q4",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "review_comments:P03:360:04",
+      "candidateId": "P03",
+      "sourceType": "360",
+      "title": "主体的発言に関するコメント",
+      "snippet": "質問されれば答えるが、会議で先に論点提起する場面が少ない。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "meeting_transcript:M01:utterance:27",
+      "candidateId": "P03",
+      "sourceType": "Meeting",
+      "title": "比較順による評価懸念",
+      "snippet": "高業績者直後の評価で相対的に低く見える可能性が議論された。",
+      "freshness": "2026-04-22",
+      "confidence": "Low"
+    },
+    {
+      "evidenceId": "performance_metrics:P04:gross_margin",
+      "candidateId": "P04",
+      "sourceType": "KPI",
+      "title": "粗利率",
+      "snippet": "粗利率46%。大型リスク案件で安定収益を維持。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P04:360:01",
+      "candidateId": "P04",
+      "sourceType": "360",
+      "title": "品質再現性の賞賛",
+      "snippet": "品質ゲート運用が徹底され、炎上回避に寄与。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "project_artifact:P04:risk_scenario_library",
+      "candidateId": "P04",
+      "sourceType": "ProjectArtifact",
+      "title": "リスクシナリオ資産",
+      "snippet": "再利用可能なリスクシナリオライブラリを構築。",
+      "freshness": "2026-Q3",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "client_feedback:P04:audit_reduction",
+      "candidateId": "P04",
+      "sourceType": "ClientFeedback",
+      "title": "監査指摘減少",
+      "snippet": "顧客の監査指摘件数30%減。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "performance_metrics:P05:qcd_recovery",
+      "candidateId": "P05",
+      "sourceType": "KPI",
+      "title": "QCD正常化",
+      "snippet": "遅延案件の再計画でQCDを正常化。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "meeting_transcript:M02:dominance_ratio",
+      "candidateId": "P05",
+      "sourceType": "Meeting",
+      "title": "発言占有率",
+      "snippet": "Top3発言比率72%、当人比率31%を記録。",
+      "freshness": "2026-04-22",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P05:peer:03",
+      "candidateId": "P05",
+      "sourceType": "PeerReview",
+      "title": "会議運営上の指摘",
+      "snippet": "議論を前進させるが、他者意見が入りづらい場面がある。",
+      "freshness": "2026-Q4",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "review_comments:P05:360:06",
+      "candidateId": "P05",
+      "sourceType": "360",
+      "title": "戦略論点不足",
+      "snippet": "運用論点に寄り、上位戦略との接続が弱いとの指摘。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "performance_metrics:P06:workload_reduction",
+      "candidateId": "P06",
+      "sourceType": "KPI",
+      "title": "業務時間削減効果",
+      "snippet": "改革施策導入で平均18%の業務時間削減を達成。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P06:360:02",
+      "candidateId": "P06",
+      "sourceType": "360",
+      "title": "現場浸透力の賞賛",
+      "snippet": "現場の抵抗を抑え、定着まで伴走した点を高く評価。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P06:manager:04",
+      "candidateId": "P06",
+      "sourceType": "ManagerReview",
+      "title": "役員向け訴求課題",
+      "snippet": "価値は高いが、上層向け説明でインパクトが弱く見える。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "knowledge_post:P06:annual_contribution",
+      "candidateId": "P06",
+      "sourceType": "Knowledge",
+      "title": "社内ナレッジ貢献",
+      "snippet": "年間42本の投稿で横展開に寄与。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "performance_metrics:P07:new_account_count",
+      "candidateId": "P07",
+      "sourceType": "KPI",
+      "title": "新規口座開拓数",
+      "snippet": "新規口座3社開拓、2社を複数年契約化。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P07:360:01",
+      "candidateId": "P07",
+      "sourceType": "360",
+      "title": "営業力への高評価",
+      "snippet": "難局案件の受注力は突出している。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P07:peer:07",
+      "candidateId": "P07",
+      "sourceType": "PeerReview",
+      "title": "育成再現性への懸念",
+      "snippet": "属人的な進め方でチーム継承が難しいとの指摘。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "meeting_transcript:M03:utterance:12",
+      "candidateId": "P07",
+      "sourceType": "Meeting",
+      "title": "ハロー効果チェック論点",
+      "snippet": "売上実績が他能力評価へ波及していないかを議論。",
+      "freshness": "2026-04-22",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "performance_metrics:P08:proposal_win_rate",
+      "candidateId": "P08",
+      "sourceType": "KPI",
+      "title": "提案成功率",
+      "snippet": "提案成功率62%（前年比+14pt）。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "project_artifact:P08:esg_roadmap",
+      "candidateId": "P08",
+      "sourceType": "ProjectArtifact",
+      "title": "ESG実行ロードマップ",
+      "snippet": "複数拠点横断の実行計画を策定。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P08:360:03",
+      "candidateId": "P08",
+      "sourceType": "360",
+      "title": "経営言語への翻訳力",
+      "snippet": "規制論点を経営判断の言葉に変換できる点を評価。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "client_feedback:P08:rating_upgrade",
+      "candidateId": "P08",
+      "sourceType": "ClientFeedback",
+      "title": "外部格付け改善",
+      "snippet": "ESG格付け改善に寄与。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "performance_metrics:P09:closing_days_reduction",
+      "candidateId": "P09",
+      "sourceType": "KPI",
+      "title": "月次締め短縮",
+      "snippet": "利益管理ダッシュボード導入で月次締め2日短縮。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P09:360:05",
+      "candidateId": "P09",
+      "sourceType": "360",
+      "title": "対人トーンの懸念",
+      "snippet": "品質は高いが、厳しい伝え方で萎縮が起きる場面がある。",
+      "freshness": "2026-Q4",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "review_comments:P09:peer:02",
+      "candidateId": "P09",
+      "sourceType": "PeerReview",
+      "title": "試行錯誤許容の課題",
+      "snippet": "失敗許容度が低く、挑戦機会が減るという声。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "meeting_transcript:M02:utterance:33",
+      "candidateId": "P09",
+      "sourceType": "Meeting",
+      "title": "ホーン効果論点",
+      "snippet": "口調課題が全評価軸に波及していないかを確認。",
+      "freshness": "2026-04-22",
+      "confidence": "Low"
+    },
+    {
+      "evidenceId": "performance_metrics:P10:nps_improvement",
+      "candidateId": "P10",
+      "sourceType": "KPI",
+      "title": "NPS改善",
+      "snippet": "NPSを11pt改善。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P10:360:01",
+      "candidateId": "P10",
+      "sourceType": "360",
+      "title": "顧客理解の賞賛",
+      "snippet": "顧客接点の実装支援が丁寧で定着効果が高い。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    },
+    {
+      "evidenceId": "review_comments:P10:manager:03",
+      "candidateId": "P10",
+      "sourceType": "ManagerReview",
+      "title": "定量訴求の不足",
+      "snippet": "成果はあるが、上位会議向け定量説明が弱い。",
+      "freshness": "2026-Q3",
+      "confidence": "Medium"
+    },
+    {
+      "evidenceId": "training_records:P10:internal_sessions",
+      "candidateId": "P10",
+      "sourceType": "Training",
+      "title": "社内育成貢献",
+      "snippet": "若手向け講座を年10回実施。",
+      "freshness": "2026-Q4",
+      "confidence": "High"
+    }
+  ]
+}

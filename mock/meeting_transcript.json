@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "note": "Week2会議ライブ用の擬似会議ログ"
+  },
+  "scenarios": [
+    {
+      "scenarioId": "A",
+      "name": "発言偏在型",
+      "intent": "上位話者への集中を検知し、参加促進ナッジを発火させる",
+      "agenda": [
+        { "stepId": "A1", "title": "候補者P07の昇進妥当性確認", "timeboxMin": 8 },
+        { "stepId": "A2", "title": "育成再現性と組織影響の確認", "timeboxMin": 7 }
+      ],
+      "utterances": [
+        { "seq": 1, "speakerId": "S01", "speakerName": "議長", "speakerRole": "chair", "startedAtSec": 0, "durationSec": 65, "agendaStepId": "A1", "stance": "agree", "content": "売上実績は突出しており、昇進候補としては妥当と考えます。" },
+        { "seq": 2, "speakerId": "S02", "speakerName": "部門責任者", "speakerRole": "reviewer", "startedAtSec": 70, "durationSec": 58, "agendaStepId": "A1", "stance": "agree", "content": "新規開拓の再現性も高い。短期成果は明確です。" },
+        { "seq": 3, "speakerId": "S03", "speakerName": "財務責任者", "speakerRole": "reviewer", "startedAtSec": 132, "durationSec": 52, "agendaStepId": "A1", "stance": "concern", "content": "ただし育成指標が弱く、属人化が進む懸念があります。" },
+        { "seq": 4, "speakerId": "S01", "speakerName": "議長", "speakerRole": "chair", "startedAtSec": 188, "durationSec": 61, "agendaStepId": "A2", "stance": "agree", "content": "育成は次期課題として条件付き昇進でどうでしょう。" },
+        { "seq": 5, "speakerId": "S02", "speakerName": "部門責任者", "speakerRole": "reviewer", "startedAtSec": 253, "durationSec": 47, "agendaStepId": "A2", "stance": "agree", "content": "賛成です。成果を止めず、育成施策をモニタリングしましょう。" },
+        { "seq": 6, "speakerId": "S06", "speakerName": "人事", "speakerRole": "hr", "startedAtSec": 305, "durationSec": 21, "agendaStepId": "A2", "stance": "question", "content": "未発言者の意見確認を行ってから最終化したいです。" }
+      ]
+    },
+    {
+      "scenarioId": "B",
+      "name": "異論不足型",
+      "intent": "同意偏重を検知し、代替視点ナッジを発火させる",
+      "agenda": [
+        { "stepId": "B1", "title": "候補者P02の昇進判断", "timeboxMin": 7 },
+        { "stepId": "B2", "title": "プレゼンス課題の扱い確認", "timeboxMin": 6 }
+      ],
+      "utterances": [
+        { "seq": 1, "speakerId": "S01", "speakerName": "議長", "speakerRole": "chair", "startedAtSec": 0, "durationSec": 44, "agendaStepId": "B1", "stance": "agree", "content": "実績と育成行動から見て昇進方向で良いと思います。" },
+        { "seq": 2, "speakerId": "S04", "speakerName": "評価者A", "speakerRole": "reviewer", "startedAtSec": 48, "durationSec": 39, "agendaStepId": "B1", "stance": "agree", "content": "賛成です。部門横断の調整能力は高いです。" },
+        { "seq": 3, "speakerId": "S05", "speakerName": "評価者B", "speakerRole": "reviewer", "startedAtSec": 90, "durationSec": 35, "agendaStepId": "B1", "stance": "agree", "content": "同意です。顧客満足度も高く問題ありません。" },
+        { "seq": 4, "speakerId": "S06", "speakerName": "人事", "speakerRole": "hr", "startedAtSec": 128, "durationSec": 26, "agendaStepId": "B2", "stance": "question", "content": "異論や追加リスクがないか確認したいです。" },
+        { "seq": 5, "speakerId": "S07", "speakerName": "評価者C", "speakerRole": "reviewer", "startedAtSec": 157, "durationSec": 28, "agendaStepId": "B2", "stance": "alternative", "content": "昇進自体は賛成ですが、役員向け発信の育成条件を明記すべきです。" }
+      ]
+    }
+  ]
+}

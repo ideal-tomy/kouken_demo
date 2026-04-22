@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "note": "Week2会議ライブ用ナッジ判定ルール"
+  },
+  "thresholds": {
+    "dominanceTop3Ratio": 0.7,
+    "silenceParticipantRatio": 0.25,
+    "alternativeViewMinCount": 1,
+    "nudgeCooldownSec": 90,
+    "maxNudgesPerAgenda": 2
+  },
+  "nudgeTemplates": {
+    "participation": "発言が上位者に集中しています。未発言メンバーの視点を確認しますか？",
+    "diversity": "同意意見が多く、代替視点が不足しています。別角度の論点を追加しますか？",
+    "evidence": "根拠の明示が不足しています。Evidenceに基づく補足を求めますか？"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "source": "評価対象ペルソナ10名.md",
+    "note": "TopDashboard表示用の軽量インデックス"
+  },
+  "candidates": [
+    {
+      "candidateId": "P01",
+      "name": "高橋 直樹",
+      "division": "Strategy",
+      "grade": "Manager",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P02",
+      "name": "伊藤 彩香",
+      "division": "PeopleTransformation",
+      "grade": "Manager",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P03",
+      "name": "中村 健太",
+      "division": "DataAI",
+      "grade": "SeniorConsultant",
+      "recommendedOutcome": "Hold",
+      "confidence": "High",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P04",
+      "name": "小林 由紀",
+      "division": "RiskGovernance",
+      "grade": "SeniorManager",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P05",
+      "name": "山本 拓海",
+      "division": "ITTransformation",
+      "grade": "Manager",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "riskLevel": "high"
+    },
+    {
+      "candidateId": "P06",
+      "name": "佐々木 美咲",
+      "division": "BusinessProcess",
+      "grade": "SeniorConsultant",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P07",
+      "name": "松田 亮介",
+      "division": "StrategyDigital",
+      "grade": "Director",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "riskLevel": "high"
+    },
+    {
+      "candidateId": "P08",
+      "name": "井上 真理",
+      "division": "Sustainability",
+      "grade": "Manager",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    },
+    {
+      "candidateId": "P09",
+      "name": "藤井 大輔",
+      "division": "Finance",
+      "grade": "Manager",
+      "recommendedOutcome": "Hold",
+      "confidence": "High",
+      "riskLevel": "high"
+    },
+    {
+      "candidateId": "P10",
+      "name": "渡辺 菜々子",
+      "division": "CustomerStrategy",
+      "grade": "SeniorConsultant",
+      "recommendedOutcome": "Develop",
+      "confidence": "Medium",
+      "riskLevel": "medium"
+    }
+  ]
+}

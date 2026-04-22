@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Equity Demo - Week1 Prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>AI Equity Demo</h1>
+      <p>AIは意思決定支援。最終決裁は人間が実施。</p>
+    </header>
+
+    <main>
+      <section id="view-top" class="view active">
+        <div class="toolbar">
+          <select id="filter-division">
+            <option value="">全部門</option>
+          </select>
+          <select id="filter-outcome">
+            <option value="">全判定</option>
+            <option value="Promote">Promote</option>
+            <option value="Hold">Hold</option>
+            <option value="Develop">Develop</option>
+          </select>
+          <select id="filter-risk">
+            <option value="">全リスク</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+          </select>
+        </div>
+        <div id="candidate-grid" class="grid"></div>
+      </section>
+
+      <section id="view-p0" class="view">
+        <button id="back-to-top" class="ghost-btn">← Topへ戻る</button>
+        <div id="p0-header" class="panel"></div>
+        <div class="layout-3col">
+          <div class="panel">
+            <h3>可視化（サマリ）</h3>
+            <div id="chart-overall"></div>
+            <div id="chart-360"></div>
+            <div id="chart-9axis"></div>
+          </div>
+          <div class="panel">
+            <h3>AI一次判定</h3>
+            <div id="p0-ai"></div>
+          </div>
+          <div class="panel">
+            <h3>警告・論点</h3>
+            <div id="p0-risks"></div>
+            <button id="open-evidence" class="accent-btn">根拠を詳細表示</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-evidence" class="view">
+        <button id="back-to-p0" class="ghost-btn">← P0へ戻る</button>
+        <div class="panel">
+          <h3>Evidence Explorer</h3>
+          <div id="evidence-tabs" class="tabs"></div>
+          <div id="evidence-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

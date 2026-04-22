@@ -1,0 +1,444 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-04-22T23:00:00+09:00",
+    "generatorMode": "demo-mock",
+    "policyRef": "AI判定基準_仮.md",
+    "note": "本データはデモ用のP0出力。最終決裁は人間が行う。"
+  },
+  "records": [
+    {
+      "candidateId": "P01",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "confidenceScore": 0.72,
+      "summary": "戦略インパクトと経営向け推進力は高い。一方で育成行動と委任の再現性に課題があり、昇進は妥当だがチーム運営面の条件付きが望ましい。",
+      "competencyScores": {
+        "Leadership": 82,
+        "BusinessAcumen": 80,
+        "TechnicalDeliversQuality": 78,
+        "StrategicImpact": 88,
+        "CollaborationRelationships": 74,
+        "GlobalAcumen": 69,
+        "PeopleDevelopment": 61,
+        "IntegrityProfessionalJudgment": 77,
+        "InnovationResilience": 75
+      },
+      "nineBoxAI": {
+        "performance": 86,
+        "potential": 73
+      },
+      "evidenceRefs": [
+        "performance_metrics:P01:revenue_q4",
+        "review_comments:P01:360:03",
+        "review_comments:P01:manager:01",
+        "meeting_transcript:M01:utterance:18"
+      ],
+      "riskFlags": [
+        "DelegationGap",
+        "PeopleDevelopmentBelowThreshold",
+        "RecencyBiasCheckRequired"
+      ],
+      "openQuestionsForCalibration": [
+        "直近の炎上未遂は一過性か、マネジメントスタイルの構造課題か",
+        "高成果を前提に育成不足をどこまで許容するか"
+      ],
+      "explainTrace": [
+        "Step1: 必須定量データは充足、鮮度良好",
+        "Step2: 360コメントで戦略貢献の賞賛が優勢、育成関連の建設的意見が多い",
+        "Step3: StrategicImpact高得点、PeopleDevelopment低得点で総合を減衰",
+        "Step4: 直近イベント影響の可能性を検知",
+        "Step5: Promote仮判定、ただし条件付き（育成アクション前提）"
+      ]
+    },
+    {
+      "candidateId": "P02",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "confidenceScore": 0.70,
+      "summary": "合意形成と人材育成が強く、組織変革案件での成果も安定。役員層向けの押し切り力に懸念が残るが、昇進候補として妥当。",
+      "competencyScores": {
+        "Leadership": 76,
+        "BusinessAcumen": 74,
+        "TechnicalDeliversQuality": 79,
+        "StrategicImpact": 73,
+        "CollaborationRelationships": 89,
+        "GlobalAcumen": 71,
+        "PeopleDevelopment": 87,
+        "IntegrityProfessionalJudgment": 82,
+        "InnovationResilience": 70
+      },
+      "nineBoxAI": {
+        "performance": 81,
+        "potential": 78
+      },
+      "evidenceRefs": [
+        "performance_metrics:P02:renewal_rate",
+        "review_comments:P02:360:02",
+        "review_comments:P02:peer:05",
+        "project_artifact:P02:org_change_program"
+      ],
+      "riskFlags": [
+        "PresenceUndervaluationRisk",
+        "SimilarToMeBiasCheckRequired"
+      ],
+      "openQuestionsForCalibration": [
+        "発信スタイルの違いがリーダー適性評価を不当に下げていないか",
+        "関係構築価値を短期売上と同等に扱うか"
+      ],
+      "explainTrace": [
+        "Step1: 主要データ充足、欠損なし",
+        "Step2: 賞賛コメントは協働・育成領域に集中",
+        "Step3: Collaboration/PeopleDevelopmentで高得点",
+        "Step4: プレゼンス偏重の評価バイアス疑義を付与",
+        "Step5: Promote仮判定"
+      ]
+    },
+    {
+      "candidateId": "P03",
+      "recommendedOutcome": "Hold",
+      "confidence": "High",
+      "confidenceScore": 0.79,
+      "summary": "技術品質は高く、分析成果も明確。現時点では大人数向け発信力と主体的リードの証拠が不足しており、次期昇進候補として育成強化が必要。",
+      "competencyScores": {
+        "Leadership": 58,
+        "BusinessAcumen": 67,
+        "TechnicalDeliversQuality": 91,
+        "StrategicImpact": 72,
+        "CollaborationRelationships": 68,
+        "GlobalAcumen": 63,
+        "PeopleDevelopment": 60,
+        "IntegrityProfessionalJudgment": 79,
+        "InnovationResilience": 84
+      },
+      "nineBoxAI": {
+        "performance": 75,
+        "potential": 69
+      },
+      "evidenceRefs": [
+        "performance_metrics:P03:inventory_turnover",
+        "review_comments:P03:manager:02",
+        "review_comments:P03:360:04",
+        "meeting_transcript:M01:utterance:27"
+      ],
+      "riskFlags": [
+        "ExecutiveCommunicationGap",
+        "ContrastEffectCheckRequired"
+      ],
+      "openQuestionsForCalibration": [
+        "高技術人材に求める次等級要件をどこまで発信力に置くか",
+        "発言量の少なさを過度に減点していないか"
+      ],
+      "explainTrace": [
+        "Step1: データ鮮度良好",
+        "Step2: 建設的コメントで要約力課題が継続的に出現",
+        "Step3: Technical高得点、Leadership低得点",
+        "Step4: 会議比較順序による相対評価歪みリスクを検知",
+        "Step5: Hold仮判定（育成計画付き）"
+      ]
+    },
+    {
+      "candidateId": "P04",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "confidenceScore": 0.74,
+      "summary": "品質・判断力・監査対応で高い成果を継続。変革スピード面の懸念はあるが、高度案件での再現性を考慮すると昇進妥当性は高い。",
+      "competencyScores": {
+        "Leadership": 77,
+        "BusinessAcumen": 78,
+        "TechnicalDeliversQuality": 90,
+        "StrategicImpact": 79,
+        "CollaborationRelationships": 71,
+        "GlobalAcumen": 72,
+        "PeopleDevelopment": 66,
+        "IntegrityProfessionalJudgment": 92,
+        "InnovationResilience": 68
+      },
+      "nineBoxAI": {
+        "performance": 85,
+        "potential": 74
+      },
+      "evidenceRefs": [
+        "performance_metrics:P04:gross_margin",
+        "review_comments:P04:360:01",
+        "project_artifact:P04:risk_scenario_library",
+        "client_feedback:P04:audit_reduction"
+      ],
+      "riskFlags": [
+        "ConservativeStyleOverPenaltyRisk",
+        "PeopleDevelopmentBelowTarget"
+      ],
+      "openQuestionsForCalibration": [
+        "変革速度と品質再現性のどちらを上位に置くか",
+        "厳格な基準が心理安全性へ与える影響をどう補正するか"
+      ],
+      "explainTrace": [
+        "Step1: 売上・品質指標ともに安定",
+        "Step2: 評価コメントは品質担保に強い賞賛が集中",
+        "Step3: Integrity/Qualityの高得点で総合を牽引",
+        "Step4: 保守的印象の過大減点リスクを付与",
+        "Step5: Promote仮判定"
+      ]
+    },
+    {
+      "candidateId": "P05",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "confidenceScore": 0.68,
+      "summary": "実行力と案件立て直し能力は高いが、会議での発言占有と論点偏りが継続。昇進は保留し、会議運営行動の改善を条件化する。",
+      "competencyScores": {
+        "Leadership": 69,
+        "BusinessAcumen": 73,
+        "TechnicalDeliversQuality": 80,
+        "StrategicImpact": 71,
+        "CollaborationRelationships": 64,
+        "GlobalAcumen": 66,
+        "PeopleDevelopment": 62,
+        "IntegrityProfessionalJudgment": 75,
+        "InnovationResilience": 72
+      },
+      "nineBoxAI": {
+        "performance": 79,
+        "potential": 66
+      },
+      "evidenceRefs": [
+        "performance_metrics:P05:qcd_recovery",
+        "meeting_transcript:M02:dominance_ratio",
+        "review_comments:P05:peer:03",
+        "review_comments:P05:360:06"
+      ],
+      "riskFlags": [
+        "SpeakingDominanceRisk",
+        "CollaborationScoreBorderline"
+      ],
+      "openQuestionsForCalibration": [
+        "高実行力を理由に会議行動課題を許容するか",
+        "組織全体の意思決定品質への負の外部性をどう評価に反映するか"
+      ],
+      "explainTrace": [
+        "Step1: 主要定量は閾値以上",
+        "Step2: 定性で発言独占に関する建設的指摘が反復",
+        "Step3: Collaboration領域が昇進閾値を下回る",
+        "Step4: 重大バイアスより行動品質課題を主因認定",
+        "Step5: Hold仮判定"
+      ]
+    },
+    {
+      "candidateId": "P06",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "confidenceScore": 0.66,
+      "summary": "現場浸透と改善実装は強みだが、役員向けストーリー化と可視化が弱く、成果認識にギャップ。昇進前に上位会議での発信強化が必要。",
+      "competencyScores": {
+        "Leadership": 65,
+        "BusinessAcumen": 68,
+        "TechnicalDeliversQuality": 74,
+        "StrategicImpact": 70,
+        "CollaborationRelationships": 83,
+        "GlobalAcumen": 65,
+        "PeopleDevelopment": 76,
+        "IntegrityProfessionalJudgment": 78,
+        "InnovationResilience": 73
+      },
+      "nineBoxAI": {
+        "performance": 74,
+        "potential": 72
+      },
+      "evidenceRefs": [
+        "performance_metrics:P06:workload_reduction",
+        "review_comments:P06:360:02",
+        "review_comments:P06:manager:04",
+        "knowledge_post:P06:annual_contribution"
+      ],
+      "riskFlags": [
+        "QuietContributionUndervaluationRisk",
+        "CentralTendencyCheckRequired"
+      ],
+      "openQuestionsForCalibration": [
+        "可視化されにくい現場貢献を昇進要件でどう扱うか",
+        "発信スタイルの差を実力差と混同していないか"
+      ],
+      "explainTrace": [
+        "Step1: 定量・定性ともに欠損なし",
+        "Step2: 協働・定着支援の賞賛が多数",
+        "Step3: Executive向け影響力指標が弱く潜在評価を減衰",
+        "Step4: 中央化傾向の疑義を付与",
+        "Step5: Hold仮判定"
+      ]
+    },
+    {
+      "candidateId": "P07",
+      "recommendedOutcome": "Promote",
+      "confidence": "Medium",
+      "confidenceScore": 0.71,
+      "summary": "売上・開拓実績は突出し、戦略インパクトは高い。育成再現性と異論受容度に課題があり、ハロー効果を排除した条件付き昇進が妥当。",
+      "competencyScores": {
+        "Leadership": 78,
+        "BusinessAcumen": 92,
+        "TechnicalDeliversQuality": 76,
+        "StrategicImpact": 94,
+        "CollaborationRelationships": 67,
+        "GlobalAcumen": 74,
+        "PeopleDevelopment": 59,
+        "IntegrityProfessionalJudgment": 73,
+        "InnovationResilience": 80
+      },
+      "nineBoxAI": {
+        "performance": 92,
+        "potential": 75
+      },
+      "evidenceRefs": [
+        "performance_metrics:P07:new_account_count",
+        "review_comments:P07:360:01",
+        "review_comments:P07:peer:07",
+        "meeting_transcript:M03:utterance:12"
+      ],
+      "riskFlags": [
+        "HaloEffectCheckRequired",
+        "SuccessionRisk",
+        "PeopleDevelopmentCritical"
+      ],
+      "openQuestionsForCalibration": [
+        "短期売上を優先した判断が中長期組織力を毀損しないか",
+        "高業績者への例外運用を許容するか"
+      ],
+      "explainTrace": [
+        "Step1: 定量指標は全候補中トップ水準",
+        "Step2: 定性で育成・受容姿勢に建設的指摘が集中",
+        "Step3: StrategicImpactで大幅加点、PeopleDevelopmentで減点",
+        "Step4: Halo効果の警告を明示",
+        "Step5: Promote仮判定（条件付き）"
+      ]
+    },
+    {
+      "candidateId": "P08",
+      "recommendedOutcome": "Hold",
+      "confidence": "Medium",
+      "confidenceScore": 0.69,
+      "summary": "ESG領域での中長期価値創出は強いが、単年収益での見え方に不利。評価軸の適合を再確認し、次期昇進候補として保持。",
+      "competencyScores": {
+        "Leadership": 72,
+        "BusinessAcumen": 75,
+        "TechnicalDeliversQuality": 77,
+        "StrategicImpact": 74,
+        "CollaborationRelationships": 79,
+        "GlobalAcumen": 86,
+        "PeopleDevelopment": 70,
+        "IntegrityProfessionalJudgment": 84,
+        "InnovationResilience": 71
+      },
+      "nineBoxAI": {
+        "performance": 73,
+        "potential": 79
+      },
+      "evidenceRefs": [
+        "performance_metrics:P08:proposal_win_rate",
+        "project_artifact:P08:esg_roadmap",
+        "review_comments:P08:360:03",
+        "client_feedback:P08:rating_upgrade"
+      ],
+      "riskFlags": [
+        "ShortTermRevenueBiasRisk",
+        "SpecializedDomainUndervaluationRisk"
+      ],
+      "openQuestionsForCalibration": [
+        "先行投資型テーマの価値をどの期間で評価するか",
+        "専門領域を汎用リーダー要件とどう接続するか"
+      ],
+      "explainTrace": [
+        "Step1: データ品質良好",
+        "Step2: 定性でグローバル調整・信頼形成が高評価",
+        "Step3: Potentialは高いが短期収益係数でPerformanceを抑制",
+        "Step4: 収益偏重バイアス疑義を付与",
+        "Step5: Hold仮判定"
+      ]
+    },
+    {
+      "candidateId": "P09",
+      "recommendedOutcome": "Hold",
+      "confidence": "High",
+      "confidenceScore": 0.77,
+      "summary": "品質と財務管理は高評価で安定。口調・関わり方に関する指摘が継続し、組織的な心理安全性リスクを考慮して昇進保留。",
+      "competencyScores": {
+        "Leadership": 66,
+        "BusinessAcumen": 84,
+        "TechnicalDeliversQuality": 88,
+        "StrategicImpact": 76,
+        "CollaborationRelationships": 60,
+        "GlobalAcumen": 64,
+        "PeopleDevelopment": 58,
+        "IntegrityProfessionalJudgment": 81,
+        "InnovationResilience": 69
+      },
+      "nineBoxAI": {
+        "performance": 78,
+        "potential": 63
+      },
+      "evidenceRefs": [
+        "performance_metrics:P09:closing_days_reduction",
+        "review_comments:P09:360:05",
+        "review_comments:P09:peer:02",
+        "meeting_transcript:M02:utterance:33"
+      ],
+      "riskFlags": [
+        "HornsEffectCheckRequired",
+        "PsychologicalSafetyRisk"
+      ],
+      "openQuestionsForCalibration": [
+        "口調課題が他能力評価を不当に下げていないか",
+        "品質重視文化との整合をどのように取るか"
+      ],
+      "explainTrace": [
+        "Step1: 定量は高水準で安定",
+        "Step2: 定性で対人トーンに関する建設的指摘が反復",
+        "Step3: Collaboration/PeopleDevelopmentで減点",
+        "Step4: ホーン効果の可能性を検知し警告",
+        "Step5: Hold仮判定"
+      ]
+    },
+    {
+      "candidateId": "P10",
+      "recommendedOutcome": "Develop",
+      "confidence": "Medium",
+      "confidenceScore": 0.65,
+      "summary": "顧客理解と実装伴走は高いが、次等級で要求される定量訴求・影響力の証拠が不足。短期では育成優先が妥当。",
+      "competencyScores": {
+        "Leadership": 57,
+        "BusinessAcumen": 66,
+        "TechnicalDeliversQuality": 72,
+        "StrategicImpact": 63,
+        "CollaborationRelationships": 82,
+        "GlobalAcumen": 68,
+        "PeopleDevelopment": 75,
+        "IntegrityProfessionalJudgment": 79,
+        "InnovationResilience": 70
+      },
+      "nineBoxAI": {
+        "performance": 67,
+        "potential": 71
+      },
+      "evidenceRefs": [
+        "performance_metrics:P10:nps_improvement",
+        "review_comments:P10:360:01",
+        "review_comments:P10:manager:03",
+        "training_records:P10:internal_sessions"
+      ],
+      "riskFlags": [
+        "ContrastEffectCheckRequired",
+        "SelfPromotionGap",
+        "EvidenceDensityInsufficientForPromotion"
+      ],
+      "openQuestionsForCalibration": [
+        "静かな貢献を昇進要件でどう定量化するか",
+        "比較順（高業績者の直後評価）による過小評価が起きていないか"
+      ],
+      "explainTrace": [
+        "Step1: 定量データは最低要件を満たすが上位水準ではない",
+        "Step2: 協働・支援行動の賞賛は多い",
+        "Step3: 次等級要件の影響力証拠が不足し減点",
+        "Step4: 比較順バイアス疑義を付与",
+        "Step5: Develop仮判定"
+      ]
+    }
+  ]
+}

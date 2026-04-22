@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Equity Demo - Week3 Prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>AI Equity Demo / Week3 (Finalize & Audit)</h1>
+      <p>AIは意思決定支援。最終決裁は人間。確定後は原則変更不可。</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="toolbar">
+          <label>候補者
+            <select id="candidate-select"></select>
+          </label>
+          <button id="reload">再読込</button>
+        </div>
+      </section>
+
+      <section class="layout">
+        <div class="panel">
+          <h3>最終判断（Finalize）</h3>
+          <div id="ai-human-summary"></div>
+          <label>Human最終判定
+            <select id="human-outcome">
+              <option value="Promote">Promote</option>
+              <option value="Hold">Hold</option>
+              <option value="Develop">Develop</option>
+            </select>
+          </label>
+          <label>差分理由（必須）<textarea id="delta-reason"></textarea></label>
+          <label>文脈タグ（カンマ区切り）<input id="context-tags" /></label>
+          <label>決定者（必須）<input id="decider" placeholder="chair_01" /></label>
+          <div class="toolbar">
+            <button id="finalize" class="accent">Finalize</button>
+            <span id="finalize-status" class="muted"></span>
+          </div>
+          <div class="notice">AIは最終決裁を行いません。確定は人間が実施します。</div>
+        </div>
+
+        <div class="panel">
+          <h3>ロック・例外解除</h3>
+          <div id="lock-state"></div>
+          <button id="request-unlock">例外解除を申請</button>
+          <div id="unlock-form" class="hidden">
+            <label>解除理由（必須）<textarea id="unlock-reason"></textarea></label>
+            <label>影響範囲（必須）<input id="unlock-impact" /></label>
+            <label>承認者（必須）<input id="unlock-approver" /></label>
+            <button id="approve-unlock">解除承認（デモ）</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>監査パネル</h3>
+          <div id="hash-status"></div>
+          <div id="tamper-banner" class="banner hidden">改ざん疑義: recordHash不一致</div>
+          <div id="audit-summary"></div>
+          <button id="show-audit">監査ログを表示</button>
+          <div id="audit-log" class="hidden"></div>
+        </div>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+:root {
+  --bg: #1f2028;
+  --surface: #2e2e38;
+  --panel: #3a3b46;
+  --accent: #ffe600;
+  --text: #f5f6f8;
+  --muted: #c7c9d1;
+  --warn: #ffb020;
+  --err: #ff5a6b;
+  --ok: #37c871;
+  --info: #5aa9ff;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Segoe UI", sans-serif; }
+main { padding: 20px; }
+.app-header { background: var(--surface); border-bottom: 2px solid var(--accent); padding: 16px 24px; }
+.app-header h1 { margin: 0 0 6px; }
+.app-header p { margin: 0; color: var(--muted); }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid #5a5c67;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.toolbar { display: flex; gap: 8px; align-items: center; }
+button {
+  border: 1px solid #5a5c67;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #2b2c35;
+  color: var(--text);
+}
+button.accent { background: var(--accent); color: #1c1c1c; font-weight: 700; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.kpi-card {
+  background: var(--panel);
+  border: 1px solid #5a5c67;
+  border-radius: 10px;
+  padding: 10px;
+}
+.kpi-score { font-size: 24px; font-weight: 700; }
+.delta-up { color: var(--ok); }
+.delta-down { color: var(--warn); }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bars { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: 160px 1fr 50px; align-items: center; gap: 8px; }
+.bar-bg { height: 12px; background: #262730; border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--accent); }
+.bar-fill.warn { background: var(--warn); }
+.bar-fill.info { background: var(--info); }
+
+.hint { color: var(--muted); font-size: 12px; margin-top: 8px; }
+.chip {
+  display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; margin-right: 6px;
+  background: #262730; border: 1px solid #5a5c67;
+}
+.hidden { display: none; }
+.report-section { margin-bottom: 10px; }
+.mono { font-family: Consolas, monospace; font-size: 12px; color: var(--muted); }

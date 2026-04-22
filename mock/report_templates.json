@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "schemaVersion": "1.0",
+    "note": "Week4 自動レポート生成テンプレート"
+  },
+  "executiveSummaryTemplate": "本会議では公平性と説明可能性の向上が確認された一方、AI-Human乖離の高い案件が残存。次回は乖離理由の標準化を優先する。",
+  "kpiSummaryTemplate": "KPIサマリ: Participation Equity {participation_equity}pt / Nudge Effectiveness {nudge_effectiveness}pt / Explainability {explainability}pt / Collaboration Quality {collaboration_quality}pt / Calibration Gap {calibration_gap}pt。",
+  "governanceTemplate": "監査観点: hashIntegrityRate {hash_integrity_rate}%、例外解除率 {exception_unlock_rate}%。例外変更は理由・承認者・差分が追跡可能。",
+  "actionsTemplate": [
+    "乖離上位ケースを月次レビュー対象に追加",
+    "例外解除理由のカテゴリ標準化を実施",
+    "ナッジ採否の効果レビューを次回会議冒頭で共有"
+  ]
+}
