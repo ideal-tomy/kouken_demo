@@ -302,11 +302,27 @@ function renderPersonaStrip() {
   });
 }
 
-/** 評価対象者を変えたとき: 会議ライブの表示・イベントログをリセットし、タブ切替は行わない */
+/** 評価対象者を変えたとき: 会議ライブをリセットし、確定/分析の一時表示を捨て、会議ライブタブで再開する */
 function onCandidateChange() {
+  integratedState.analytics.generatedReport = null;
+  byId("report-panel")?.classList.add("hidden");
+  byId("report-modal")?.classList.add("hidden");
+  const reportContent = byId("report-content");
+  const reportModalBody = byId("report-modal-body");
+  if (reportContent) reportContent.innerHTML = "";
+  if (reportModalBody) reportModalBody.innerHTML = "";
+  byId("audit-log")?.classList.add("hidden");
+  const unlockReason = byId("unlock-reason");
+  const unlockImpact = byId("unlock-impact");
+  const unlockApprover = byId("unlock-approver");
+  if (unlockReason) unlockReason.value = "";
+  if (unlockImpact) unlockImpact.value = "";
+  if (unlockApprover) unlockApprover.value = "";
+
   resetMeetingPanel();
   integratedState.decision.unlockApproved = false;
   byId("unlock-form").classList.add("hidden");
+  switchTab("meeting");
   dispatchEvent("candidate_selected", { candidateId: integratedState.session.selectedCandidateId });
   renderPersonaStrip();
   renderSidePanel();
