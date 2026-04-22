@@ -36,6 +36,7 @@ const integratedState = {
   },
   ui: {
     drilldownTarget: "participation_equity",
+    aiSummaryExpanded: true,
   },
 };
 
@@ -766,6 +767,15 @@ function renderAiSummaryBlock() {
     <div class="muted">AI判定基準の流れ: 入力（定量/定性/文脈）→ 判定（9軸/バイアス）→ 出力（判定/根拠）→ 人間補正（差分理由）。</div>`;
 }
 
+function renderAiSummaryAccordion() {
+  const btn = byId("toggle-ai-summary");
+  const block = byId("ai-summary-block");
+  if (!btn || !block) return;
+  const expanded = integratedState.ui.aiSummaryExpanded;
+  block.classList.toggle("hidden", !expanded);
+  btn.textContent = expanded ? "閉じる" : "開く";
+}
+
 function renderEventLog() {
   byId("event-log").innerHTML = integratedState.meeting.eventLog.slice(-20).reverse()
     .map((e) => `<div class="log-line"><span class="mono">${e.type}</span> <span class="muted">${e.at}</span></div>`)
@@ -805,6 +815,13 @@ function bindEvents() {
   byId("close-report-modal-footer").addEventListener("click", () => byId("report-modal").classList.add("hidden"));
   byId("save-pdf").addEventListener("click", () => window.print());
   byId("print-report").addEventListener("click", () => window.print());
+  const aiSummaryBtn = byId("toggle-ai-summary");
+  if (aiSummaryBtn) {
+    aiSummaryBtn.addEventListener("click", () => {
+      integratedState.ui.aiSummaryExpanded = !integratedState.ui.aiSummaryExpanded;
+      renderAiSummaryAccordion();
+    });
+  }
   const toggleBtn = byId("toggle-report");
   if (toggleBtn) toggleBtn.addEventListener("click", () => byId("report-panel").classList.toggle("hidden"));
 }
@@ -819,6 +836,7 @@ async function init() {
     resetMeetingPanel();
     renderSidePanel();
     renderAiSummaryBlock();
+    renderAiSummaryAccordion();
     renderFinalizePanel();
     renderFinalizeBrief();
     recomputeAnalytics();

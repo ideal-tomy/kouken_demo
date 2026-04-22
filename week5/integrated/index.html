@@ -54,8 +54,11 @@
         </nav>
 
         <section id="tab-meeting" class="tab-content active">
-          <article class="panel">
-            <h3>AI総合判定</h3>
+          <article class="panel" id="ai-summary-panel">
+            <div class="toolbar between">
+              <h3>AI総合判定（会議前ブリーフ）</h3>
+              <button id="toggle-ai-summary">閉じる</button>
+            </div>
             <div id="ai-summary-block"></div>
           </article>
           <article class="panel">
@@ -165,11 +168,11 @@
         </section>
 
         <section id="tab-criteria" class="tab-content">
-          <article class="panel">
+          <article class="panel criteria-panel">
             <h3>見るポイント</h3>
             <p>AIが何を入力に、どう判定し、どう人間判断へ接続するかを4ブロックで確認します。</p>
           </article>
-          <article class="panel">
+          <article class="panel criteria-panel">
             <h4>AI判定基準（要約）</h4>
             <div id="criteria-summary"></div>
           </article>

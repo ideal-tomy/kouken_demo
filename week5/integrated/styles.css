@@ -91,6 +91,7 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
 }
 .layout { display: grid; grid-template-columns: 400px 1fr; gap: var(--space-2); padding: 0 20px 20px; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: var(--space-2); margin-bottom: var(--space-2); }
+.criteria-panel { background: #233347; border-color: #4575a5; }
 .side-panel h3, .side-panel h4 { margin: 8px 0; }
 .main-panel { min-width: 0; }
 
@@ -100,11 +101,23 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
   border-radius: 8px; padding: 10px 14px;
 }
 .tabs button.active { background: var(--accent); color: #1c1c1c; font-weight: 700; }
+.tabs button[data-tab="criteria"] {
+  margin-left: auto;
+  border-style: dashed;
+  border-color: #5aa9ff;
+  color: #d9ecff;
+}
+.tabs button[data-tab="criteria"].active {
+  background: #5aa9ff;
+  color: #1a2430;
+  border-color: #5aa9ff;
+}
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
 .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.toolbar.between { justify-content: space-between; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .brief-card {
   background: #2a2b34;
