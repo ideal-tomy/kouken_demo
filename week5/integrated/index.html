@@ -84,12 +84,30 @@
 
         <section id="tab-finalize" class="tab-content">
           <article class="panel">
-            <h3>見るポイント</h3>
-            <p>最終確定後は原則編集できません。例外解除は理由・承認・差分を必ず残します。</p>
+            <h3>最終決定ブリーフ</h3>
+            <div id="finalize-brief-header"></div>
+            <div class="grid2">
+              <div class="brief-card">
+                <h4>会議要約</h4>
+                <div id="brief-meeting-summary"></div>
+              </div>
+              <div class="brief-card">
+                <h4>AI総合判定</h4>
+                <div id="brief-ai-summary"></div>
+              </div>
+              <div class="brief-card">
+                <h4>ナッジ採否サマリ</h4>
+                <div id="brief-nudge-summary"></div>
+              </div>
+              <div class="brief-card">
+                <h4>監査状態</h4>
+                <div id="brief-audit-status"></div>
+              </div>
+            </div>
           </article>
           <article class="panel grid2">
             <div>
-              <h4>最終判断</h4>
+              <h4 id="finalize-title">最終判断</h4>
               <div id="ai-human-summary"></div>
               <label>最終判定
                 <select id="human-outcome">
@@ -107,7 +125,7 @@
               </div>
             </div>
             <div>
-              <h4>ロック・例外解除</h4>
+              <h4 id="audit-title">ロック・例外解除</h4>
               <div id="lock-state"></div>
               <button id="request-unlock">例外解除申請</button>
               <div id="unlock-form" class="hidden">
@@ -121,7 +139,6 @@
               <div id="tamper-banner" class="banner hidden">改ざん疑義: recordHash不一致</div>
               <button id="show-audit">監査ログ表示</button>
               <div id="audit-log" class="hidden"></div>
-              <h4>ナッジ採否履歴</h4>
               <div id="nudge-audit-log"></div>
             </div>
           </article>
@@ -144,7 +161,7 @@
           </section>
           <article class="panel"><h4>AI所見</h4><div id="insights"></div></article>
           <article class="panel"><h4>根拠ドリルダウン</h4><div id="drilldown"></div></article>
-          <article id="report-panel" class="panel hidden"><h4>自動レポート</h4><div id="report-content"></div></article>
+          <article id="report-panel" class="panel hidden"><h4>自動レポート（概要）</h4><div id="report-content"></div></article>
         </section>
 
         <section id="tab-criteria" class="tab-content">
@@ -159,6 +176,23 @@
         </section>
       </section>
     </main>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div id="report-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="report-modal-title">自動レポート（全文）</h3>
+          <button id="close-report-modal">閉じる</button>
+        </div>
+        <div id="report-modal-body" class="modal-body"></div>
+        <div class="modal-footer">
+          <button id="save-pdf" class="accent">PDFで保存（印刷ダイアログ）</button>
+          <button id="print-report">印刷</button>
+          <button id="close-report-modal-footer">閉じる</button>
+        </div>
+      </div>
+    </div>
 
     <script src="./app.js"></script>
   </body>

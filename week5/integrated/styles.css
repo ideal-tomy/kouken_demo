@@ -105,6 +105,13 @@ body { margin: 0; font-family: "Segoe UI", sans-serif; background: var(--bg); co
 
 .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.brief-card {
+  background: #2a2b34;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+}
+.brief-card h4 { margin: 0 0 6px; font-size: 14px; }
 
 button { cursor: pointer; }
 button, select, input, textarea {
@@ -161,6 +168,57 @@ input { width: 100%; }
   padding-left: 16px;
   font-size: 12px;
   color: var(--muted);
+}
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  background: #2a2b34;
+  border: 1px solid var(--accent);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-width: 260px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 1100;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  width: min(1000px, 92vw);
+  max-height: 86vh;
+  background: #2f303a;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.modal-header,
+.modal-footer {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.modal-footer {
+  border-bottom: none;
+  border-top: 1px solid var(--line);
+  justify-content: flex-end;
+}
+.modal-body {
+  overflow: auto;
+  padding: 12px;
 }
 
 /* 会議室スクリーン投影用: 文字と余白をさらに拡大 */

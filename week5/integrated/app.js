@@ -110,6 +110,7 @@ function dispatchEvent(type, payload = {}) {
   if (integratedState.meeting.eventLog.length > 120) integratedState.meeting.eventLog.shift();
   renderPhaseStepper();
   renderEventLog();
+  renderFinalizeBrief();
 }
 
 function currentCandidate() {
@@ -209,6 +210,7 @@ function renderPersonaStrip() {
       dispatchEvent("candidate_selected", { candidateId: b.dataset.candidateId });
       renderPersonaStrip();
       renderSidePanel();
+      renderAiSummaryBlock();
       renderFinalizePanel();
       recomputeAnalytics();
     });
@@ -302,6 +304,49 @@ function renderSidePanel() {
     </ul>`;
 }
 
+function renderFinalizeBrief() {
+  const c = currentCandidate();
+  const p0 = currentP0();
+  const r = currentRecord();
+  if (!c || !p0 || !r) return;
+  const latest = integratedState.meeting.eventLog[integratedState.meeting.eventLog.length - 1];
+  const nudgeAccepted = integratedState.meeting.nudgeLog.filter((x) => x.decision === "accepted").length;
+  const nudgeDismissed = integratedState.meeting.nudgeLog.filter((x) => x.decision === "dismissed").length;
+  const expected = calcRecordHash(r);
+  const hashOk = expected === r.recordHash;
+  const concerns = (p0.riskFlags || []).slice(0, 2);
+  const topics = (p0.openQuestionsForCalibration || []).slice(0, 3);
+
+  byId("finalize-brief-header").innerHTML = `
+    <div><strong>${c.name}</strong>（${c.candidateId}） / ${c.division} / ${c.grade}</div>
+    <div class="muted">現在フェーズ: ${phaseLabels[integratedState.session.currentPhase]} / 直近操作: ${latest ? latest.type : "なし"}</div>`;
+  byId("brief-meeting-summary").innerHTML = `
+    <ul>
+      <li>発言偏在: ${byId("speaker-balance")?.textContent || "-"}</li>
+      <li>未発言者: ${byId("silence-ratio")?.textContent || "-"}</li>
+      <li>会議論点: ${topics[0] || "主要論点を会議で確認"}</li>
+    </ul>`;
+  byId("brief-ai-summary").innerHTML = `
+    <div>推奨判定: <strong>${outcomeJa(p0.recommendedOutcome)}</strong> / 信頼度: ${p0.confidence}</div>
+    <div class="muted">懸念: ${concerns.join(" / ") || "特記事項なし"}</div>`;
+  byId("brief-nudge-summary").innerHTML = `
+    <div>採用: <strong>${nudgeAccepted}</strong> 件 / 見送り: <strong>${nudgeDismissed}</strong> 件</div>
+    <div class="muted">この候補者の会議運営ログとして監査へ記録</div>`;
+  byId("brief-audit-status").innerHTML = `
+    <div>ロック状態: <strong>${r.finalizedFlag ? "確定済み" : "未確定"}</strong></div>
+    <div>hash整合: <strong>${hashOk ? "OK" : "要確認"}</strong></div>
+    <div class="muted">例外解除: ${integratedState.decision.unlockApproved ? "承認中" : "なし"}</div>`;
+}
+
+function showToast(message) {
+  const el = byId("toast");
+  if (!el) return;
+  el.textContent = message;
+  el.classList.remove("hidden");
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => el.classList.add("hidden"), 2200);
+}
+
 function avg(nums) {
   if (!nums.length) return 0;
   return nums.reduce((a, b) => a + Number(b || 0), 0) / nums.length;
@@ -385,16 +430,20 @@ function renderNudge(type, reasonText, sec) {
     dispatchEvent("nudge_accepted", { type, sec });
     appendAudit("nudge_accepted", `${type}を採用`, null, { type, sec }, "facilitator_demo");
     byId("nudge-panel").innerHTML = "<span class='chip'>採用済み</span>";
+    showToast(`${integratedState.session.selectedCandidateId} ${type}採用 -> 監査/分析へ反映`);
     recomputeAnalytics();
     renderFinalizePanel();
+    renderFinalizeBrief();
   });
   byId("dismiss-nudge").addEventListener("click", () => {
     integratedState.meeting.nudgeLog.push({ type, decision: "dismissed", sec });
     dispatchEvent("nudge_dismissed", { type, sec });
     appendAudit("nudge_dismissed", `${type}を見送り`, null, { type, sec }, "facilitator_demo");
     byId("nudge-panel").innerHTML = "<span class='chip'>見送り</span>";
+    showToast(`${integratedState.session.selectedCandidateId} ${type}見送り -> 監査/分析へ反映`);
     recomputeAnalytics();
     renderFinalizePanel();
+    renderFinalizeBrief();
   });
 }
 
@@ -456,6 +505,7 @@ function renderFinalizePanel() {
   const r = currentRecord();
   if (!r) return;
   byId("ai-human-summary").innerHTML = `
+    <div><strong>候補者:</strong> ${currentCandidate()?.name || "-"}（${r.candidateId}）</div>
     <div>AI案: <strong>${outcomeJa(r.aiOutcome)} (${r.aiOutcome})</strong></div>
     <div>現在値: <strong>${outcomeJa(r.humanOutcome)} (${r.humanOutcome})</strong></div>
     <div>lockVersion: ${r.lockVersion}</div>`;
@@ -480,6 +530,8 @@ function renderFinalizePanel() {
   byId("nudge-audit-log").innerHTML = nudgeHist.length
     ? nudgeHist.map((h) => `<div class="log-line"><span class="mono">${h.eventType}</span> ${h.reason}</div>`).join("")
     : "<div class='muted'>まだ記録なし</div>";
+  byId("finalize-title").textContent = `最終判断（${currentCandidate()?.name || "-"}）`;
+  byId("audit-title").textContent = `ロック・例外解除（${currentCandidate()?.name || "-"}）`;
 }
 
 function finalizeOrEdit() {
@@ -510,6 +562,7 @@ function finalizeOrEdit() {
   }
   recomputeAnalytics();
   renderFinalizePanel();
+  renderFinalizeBrief();
   renderSidePanel();
 }
 
@@ -536,6 +589,7 @@ function approveUnlock() {
   integratedState.decision.unlockApproved = true;
   dispatchEvent("unlock_approved", { candidateId: r.candidateId });
   renderFinalizePanel();
+  renderFinalizeBrief();
   renderSidePanel();
 }
 
@@ -653,7 +707,7 @@ function renderReport() {
     generatedAt: new Date().toISOString(),
     snapshotId: `snapshot-${Date.now()}`,
   };
-  byId("report-content").innerHTML = `
+  const reportHtml = `
     <p><strong>会議概要</strong><br>${c?.name || "-"} / ${phaseSummary}</p>
     <p><strong>結論</strong><br>${t.executiveSummaryTemplate}</p>
     <p><strong>AI総合判定と最終判断</strong><br>AI: ${outcomeJa(p0?.recommendedOutcome)} / 人間最終: ${outcomeJa(r?.humanOutcome)}</p>
@@ -668,7 +722,11 @@ function renderReport() {
       <li>担当: Manager / 期限: 月次 / 効果: 乖離上位案件の再発防止</li>
     </ul>
     <p class="mono">snapshotId: ${integratedState.analytics.generatedReport.snapshotId}</p>`;
+  byId("report-content").innerHTML = reportHtml;
   byId("report-panel").classList.remove("hidden");
+  byId("report-modal-body").innerHTML = reportHtml;
+  byId("report-modal").classList.remove("hidden");
+  showToast("自動レポートを生成しました。全文プレビューを表示中");
   dispatchEvent("report_generated", integratedState.analytics.generatedReport);
 }
 
@@ -731,6 +789,7 @@ function bindEvents() {
     renderSidePanel();
     renderAiSummaryBlock();
     renderFinalizePanel();
+    renderFinalizeBrief();
     recomputeAnalytics();
   });
   document.querySelectorAll("#main-tabs button").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
@@ -742,6 +801,10 @@ function bindEvents() {
   byId("approve-unlock").addEventListener("click", approveUnlock);
   byId("show-audit").addEventListener("click", () => byId("audit-log").classList.toggle("hidden"));
   byId("generate-report").addEventListener("click", renderReport);
+  byId("close-report-modal").addEventListener("click", () => byId("report-modal").classList.add("hidden"));
+  byId("close-report-modal-footer").addEventListener("click", () => byId("report-modal").classList.add("hidden"));
+  byId("save-pdf").addEventListener("click", () => window.print());
+  byId("print-report").addEventListener("click", () => window.print());
   const toggleBtn = byId("toggle-report");
   if (toggleBtn) toggleBtn.addEventListener("click", () => byId("report-panel").classList.toggle("hidden"));
 }
@@ -757,6 +820,7 @@ async function init() {
     renderSidePanel();
     renderAiSummaryBlock();
     renderFinalizePanel();
+    renderFinalizeBrief();
     recomputeAnalytics();
     renderCriteriaSummary();
     bindEvents();
